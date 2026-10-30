@@ -118,6 +118,14 @@
     {
       "file": "port-resources.json",
       "sha256": "146ae9cb37f71bb55400649890a51da6406df40f1016c6b6ed9b87f63d40228b"
+    },
+    {
+      "file": "saved-colour-audit.json",
+      "sha256": "2b5336bc7c63d2c4e0d4aaef838e08bd33d673d4904506438d31bd29f96e7158"
+    },
+    {
+      "file": "surface-sounds.json",
+      "sha256": "0daa80f88f51b7ba54fd7772295342904dd1b68f60a98157eb73408789b101fd"
     }
   ]
 }

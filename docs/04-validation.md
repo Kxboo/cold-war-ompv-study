@@ -2,6 +2,8 @@
 
 ## Saved shader comparison
 
+**The reference bake runs Cold War’s own captured terrain composition program unchanged.** Greyhound loads the supported shader binary into a D3D12 compute pipeline and binds captured layer textures, records and controls. Its SHA-256 gate identifies the original program. This makes the bake a faithful reference for that program under the documented saved-input configuration: the material logic comes from Cold War itself. Dispatch constants and provisional sampler choices are reconstructed, weather state is omitted, and the capture is not an atomic GPU-frame snapshot. Those state limits remain relevant when comparing to a live game frame. See the [pinned runner](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L177-L178) and [replay contract](07-replay-contract.md).
+
 [shader-validation.json](../evidence/shader-validation.json) is the saved `val_native` report from the zm_silver experiment. It contains **1,048,576 texels**, all valid in both outputs, and **1.0 validity agreement**. The table preserves its measurements, rounded to six decimals.
 
 | Channel | Mean absolute error × 255 | 99th percentile × 255 | Maximum × 255 |
@@ -27,6 +29,25 @@ The main page expresses the saved mean colour error as a percentage:
 ```
 
 This is the complement of normalized mean absolute colour error for the **one 1024 × 1024 zm_silver tile** in the saved report. The comparison is the translated shader in a D3D11 WARP harness against Cold War’s own shader in Greyhound’s D3D12 WARP reference bake. It is not a percentage of identical pixels, a perceptual similarity metric, or a measured comparison of final in-game images. It does not summarize normal, roughness, AO, geometry or lighting, and it does not remove the outliers or replay limitations described above.
+
+## Saved colour previews
+
+The [reference image](../assets/reference-bake-colour.png) and [translated-shader image](../assets/translated-shader-colour.png) are the retained `bake_colour.png` and `ours_colour.png`, copied without modification. They show actual saved offline shader outputs. The [main-page comparison](https://kxboo.github.io/cold-war-ompv-study/#comparison) displays them alongside a measured error map.
+
+A fresh comparison of their rounded, clipped **8-bit RGB** pixels gives:
+
+| Criterion, requiring all three channels to pass | Pixels | Share |
+| --- | ---: | ---: |
+| Identical RGB | 862,299 | 82.235241% |
+| Absolute error at most 1/255 | 1,036,808 | 98.877716% |
+| Absolute error at most 2/255 | 1,042,879 | 99.456692% |
+| Absolute error at most 5/255 | 1,046,917 | 99.841785% |
+
+The PNG RGB mean error is **0.1129112244/255**. The unique largest error is at zero-based pixel **(960, 482)**: reference RGB `(96, 77, 65)`, candidate `(181, 180, 178)`, differences `(85, 103, 113)`. Its cause remains untraced. The error overview shows the **largest channel error within each 16 × 16 block**, deliberately enlarging isolated outliers rather than presenting a percentage of bad area.
+
+The candidate PNG reproduces exactly from the retained `vt0.f32` using the original clamp/round conversion. The published floating-output report matches the retained report JSON. However, the matching **raw reference float files have not been located for a fresh recomputation**. PNG statistics do not replace that historical report or measure its normal, roughness and AO channels. [Preview measurements, hashes and bindings](../evidence/saved-colour-audit.json).
+
+The retained harness bindings select RGBA8 UNORM/sRGB uploads. That does not establish validation of BO3’s final compressed assets. It also does not rule out an earlier encode/decode round trip before upload; that needs input-byte provenance. Keep final BO3 recompression, in-game lighting, surface sounds and geometry validation separate from this one-tile material comparison.
 
 ## Three evidence levels
 

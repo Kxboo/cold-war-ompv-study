@@ -1,0 +1,281 @@
+{
+  "schema": "ompv-saved-colour-preview-audit-v1",
+  "scope": "Fresh analysis of retained 8-bit PNG previews and source files. No new capture or shader execution.",
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "pixels": 1048576,
+  "metric_definition": "Absolute channel differences in the saved rounded/clipped 8-bit RGB PNGs; thresholds require all three channels to pass.",
+  "png_rgb_mae_8bit": 0.11291122436523438,
+  "png_rgb_p99_8bit": 1.0,
+  "png_rgb_max_8bit": 113,
+  "all_rgb_channels_within_threshold": {
+    "0": {
+      "pixels": 862299,
+      "percent": 82.2352409362793
+    },
+    "1": {
+      "pixels": 1036808,
+      "percent": 98.87771606445312
+    },
+    "2": {
+      "pixels": 1042879,
+      "percent": 99.45669174194336
+    },
+    "5": {
+      "pixels": 1046917,
+      "percent": 99.8417854309082
+    }
+  },
+  "worst_pixel": {
+    "x": 960,
+    "y": 482,
+    "reference_rgb": [
+      96,
+      77,
+      65
+    ],
+    "candidate_rgb": [
+      181,
+      180,
+      178
+    ],
+    "absolute_rgb_error": [
+      85,
+      103,
+      113
+    ]
+  },
+  "candidate_png_exactly_reproduced_from_saved_vt0": true,
+  "published_float_report_matches_saved_json": true,
+  "float_report_recomputed": false,
+  "raw_reference_status": "The matching raw reference output has not been located. These preview statistics do not independently reproduce the historical float report.",
+  "retained_binding_formats": "All format flags are 0/1: the inspected harness uses RGBA8 UNORM or RGBA8 UNORM SRGB, not BC7/BC4 block uploads. This run does not establish installed BO3 compression fidelity.",
+  "bindings": [
+    {
+      "register": 0,
+      "width": 8192,
+      "height": 8192,
+      "format_flag": 1,
+      "generate_mips": true
+    },
+    {
+      "register": 2,
+      "width": 8192,
+      "height": 8192,
+      "format_flag": 0,
+      "generate_mips": true
+    },
+    {
+      "register": 4,
+      "width": 8192,
+      "height": 8192,
+      "format_flag": 0,
+      "generate_mips": true
+    },
+    {
+      "register": 5,
+      "width": 8192,
+      "height": 8192,
+      "format_flag": 0,
+      "generate_mips": true
+    },
+    {
+      "register": 6,
+      "width": 8192,
+      "height": 8192,
+      "format_flag": 0,
+      "generate_mips": true
+    },
+    {
+      "register": 9,
+      "width": 2048,
+      "height": 2048,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 10,
+      "width": 2048,
+      "height": 2048,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 11,
+      "width": 1024,
+      "height": 1024,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 12,
+      "width": 128,
+      "height": 256,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 13,
+      "width": 1024,
+      "height": 1024,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 14,
+      "width": 1024,
+      "height": 1024,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 15,
+      "width": 129,
+      "height": 129,
+      "format_flag": 0,
+      "generate_mips": false
+    },
+    {
+      "register": 16,
+      "width": 256,
+      "height": 256,
+      "format_flag": 0,
+      "generate_mips": true
+    }
+  ],
+  "dispatch_origin_xy": [
+    -1027.8095703125,
+    -1027.8095703125
+  ],
+  "dispatch_step_xy": [
+    0.5079365372657776,
+    0.5079365372657776
+  ],
+  "historical_colour_percent": 99.955547264978,
+  "source_checks": [
+    {
+      "label": "composition-validation.json",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "final-blend-validation.json",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "distortion-validation.json",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "normal-output-validation.json",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "distortion-binding-probe/binding-evidence.json",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "reference.py",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "validate_composition.py",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "validate_final_blend.py",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "validate_distortion.py",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "trace_composition_globals.py",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "README.md",
+      "hash_and_size_match": true
+    },
+    {
+      "label": "BLENDING_CHECKPOINT.md",
+      "hash_and_size_match": true
+    }
+  ],
+  "input_files": [
+    {
+      "label": "saved-validation/val_native/bake_colour.png",
+      "bytes": 1935260,
+      "sha256": "5b5243a99654275f4899f4a3acdb8b92aca890e570ddd0aa68c80c486842aeeb"
+    },
+    {
+      "label": "saved-validation/val_native/ours_colour.png",
+      "bytes": 1931713,
+      "sha256": "00499f9449bd0f4456bd54b17d688b72e748e782c96217940e4a9267272181a0"
+    },
+    {
+      "label": "saved-validation/val_native/report.json",
+      "bytes": 613,
+      "sha256": "0d9442e5fd87e3338a2298cf712b9bef40fa401ecba0827650a25886240a4bf8"
+    },
+    {
+      "label": "saved-validation/val_native/results/vt0.f32",
+      "bytes": 16777216,
+      "sha256": "332dc5d70a2ad17e03eacf2ae1db1558fa1852b7bf5947211ca60007a0508593"
+    },
+    {
+      "label": "saved-validation/val_native/results/vt1.f32",
+      "bytes": 16777216,
+      "sha256": "a8371314a851519e7929642a4a063bc2f8cc364b188c5882eca54ee2925f74bd"
+    },
+    {
+      "label": "saved-validation/val_native/results/vt2.f32",
+      "bytes": 16777216,
+      "sha256": "e43c1f55c990d8fbc32b8bddc0ad8f8e757c590621cde1b656dad120980ffedc"
+    },
+    {
+      "label": "saved-validation/val_native/bindings.txt",
+      "bytes": 1512,
+      "sha256": "542903619027524e059b7c5ff9d33abeb3ccc9487a20a49c0ba61b63ae8c5463"
+    },
+    {
+      "label": "saved-validation/val_native/cw_terrain_data.hlsli",
+      "bytes": 176670,
+      "sha256": "0a48c331880f4aee3869b67a3e015371c5f8b6260481c46536051cbf13d304af"
+    },
+    {
+      "label": "saved-validation/val_native/cw_terrain_composition.hlsli",
+      "bytes": 330179,
+      "sha256": "dbbb625564ae3e920820d04b307041280b912d6fd18ec4c330a53cebf74b8e07"
+    },
+    {
+      "label": "saved-validation/val_native/cw_terrain_resources.hlsli",
+      "bytes": 12109,
+      "sha256": "3e6fd61ffb373db9311bc71b2b87af8fcef00dca18adaa2a51f7927128ed385e"
+    },
+    {
+      "label": "saved-validation/val_native/cw_terrain_harness.hlsl",
+      "bytes": 966,
+      "sha256": "e2d55b8937670bb9170eb8c8735c3eaa8f248360cacf430b5b15e37567b89658"
+    }
+  ],
+  "inspected_harness_source": {
+    "label": "local-research/harness/cw_terrain_harness.cpp",
+    "bytes": 7690,
+    "sha256": "19babfd427846d572d1787fc6dd74e461a48d73523ede433a9acd73f72cea8a5"
+  },
+  "published_previews": [
+    {
+      "file": "reference-bake-colour.png",
+      "source_label": "saved-validation/val_native/bake_colour.png",
+      "sha256": "5b5243a99654275f4899f4a3acdb8b92aca890e570ddd0aa68c80c486842aeeb"
+    },
+    {
+      "file": "translated-shader-colour.png",
+      "source_label": "saved-validation/val_native/ours_colour.png",
+      "sha256": "00499f9449bd0f4456bd54b17d688b72e748e782c96217940e4a9267272181a0"
+    }
+  ]
+}

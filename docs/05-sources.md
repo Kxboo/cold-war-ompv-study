@@ -37,6 +37,10 @@ The source hashes make the inspected versions identifiable. They do not make una
 
 The expanded [shader-experiments.json](../evidence/shader-experiments.json) has a separate `source_files` manifest for 12 historical composition reports, validators, trace scripts and research notes. Its numerical fields retain their source report names and JSON pointers where applicable. The [experiments chapter](08-shader-experiments.md) distinguishes that local historical evidence from the public production code and from the examples included here. Absolute process addresses and machine-specific paths are omitted from the portable extract.
 
+[saved-colour-audit.json](../evidence/saved-colour-audit.json) records a fresh comparison of the retained 8-bit output previews, their hashes, the candidate preview’s exact reconstruction from its saved float output, and the retained resource-binding formats. The missing matching raw reference prevents fresh recomputation of the historical floating-output report. The two published PNGs are unchanged copies of the saved previews; their game-derived artwork is covered by the attribution in [NOTICE.md](../NOTICE.md).
+
+[surface-sounds.json](../evidence/surface-sounds.json) records inspection of the later collision-surface capture, seven installed materials and current surface-split prefab. It fingerprints the two supplied handoffs, decoder, builder, source records, generated maps and retained build logs. Current file measurements are separated from historical baseline figures found only in the notes. This adds no new game capture, audio recording, shader execution or navmesh compile.
+
 ## Interpretation rules
 
 - **Documented mechanism:** supported by the primary presentations.

@@ -280,7 +280,7 @@ def page(path, content, headings, chapters):
 <div class="reader-header wrap"><a href="../#study">← All field notes</a><p class="eyebrow">CHAPTER {path.stem[:2]} / COLD WAR OMPV</p></div>
 <main class="reader-layout wrap"><aside class="reader-sidebar" aria-label="Study navigation"><p class="eyebrow">THE COMPLETE STUDY</p><nav aria-label="Chapters">{navigation}</nav><div class="toc"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="On this page">{toc}</nav></div><details class="reader-mobile-nav"><summary>Chapters &amp; this page</summary><nav aria-label="Mobile chapters">{navigation}</nav><div class="toc"><nav aria-label="Mobile page contents">{toc}</nav></div></details></aside>
 <article id="article" class="article-body">{content}<a class="source-link" href="{REPO}/blob/main/docs/{quote(path.name)}">Read this chapter’s Markdown source ↗</a><nav class="chapter-pager" aria-label="Adjacent chapters">{pager}</nav></article></main>
-<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="{REPO}/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>
+<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Research notes, examples &amp; saved-output comparisons.</span></div><p>Independent study. Source texture packs and shader binaries remain external.</p><a href="{REPO}/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>
 '''
 
 
@@ -334,8 +334,9 @@ def main():
         (SITE / 'chapters' / path.with_suffix('.html').name).write_text(page(path, content, headings, chapters), encoding='utf-8')
     for source in (ROOT / 'evidence').glob('*.json'):
         shutil.copyfile(source, SITE / 'data' / source.name)
-    for source in (ROOT / 'assets').glob('*.svg'):
-        shutil.copyfile(source, SITE / 'assets' / source.name)
+    for source in (ROOT / 'assets').iterdir():
+        if source.is_file() and source.suffix in ('.svg', '.png'):
+            shutil.copyfile(source, SITE / 'assets' / source.name)
     make_art()
     documents, links = check_links()
     print(f'Built {len(chapters)} chapters; checked {links} local links across {documents} HTML documents.')

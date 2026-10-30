@@ -1,5 +1,6 @@
 """Site publication checks: source citations, internal navigation and evidence."""
 from pathlib import Path
+import hashlib
 import json
 import re
 import sys
@@ -54,6 +55,21 @@ class SiteTests(unittest.TestCase):
         for channel in ('colour_srgb', 'normal_xy', 'roughness', 'ao'):
             for metric in ('mae_8bit', 'p99_8bit', 'max_8bit'):
                 self.assertIn(f'{report[channel][metric]:.6f}', index)
+
+    def test_saved_preview_images_are_published_unchanged(self):
+        audit = json.loads((ROOT / 'evidence/saved-colour-audit.json').read_text())
+        for entry in audit['published_previews']:
+            original = (ROOT / 'assets' / entry['file']).read_bytes()
+            published = (ROOT / 'site/assets' / entry['file']).read_bytes()
+            self.assertEqual(hashlib.sha256(original).hexdigest(), entry['sha256'])
+            self.assertEqual(original, published)
+            self.assertEqual(original[:8], b'\x89PNG\r\n\x1a\n')
+            self.assertEqual(int.from_bytes(original[16:20], 'big'), 1024)
+            self.assertEqual(int.from_bytes(original[20:24], 'big'), 1024)
+        index = (ROOT / 'site/index.html').read_text(encoding='utf8')
+        for threshold in ('0', '1'):
+            count = audit['all_rgb_channels_within_threshold'][threshold]['pixels']
+            self.assertIn(f'{100 * count / audit["pixels"]:.2f}%', index)
 
 
 if __name__ == '__main__':

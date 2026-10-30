@@ -47,6 +47,8 @@ The harness runs at a footprint ratio of one. Agreement there does not validate 
 
 ## Output interpretation
 
+The later [surface-sound integration](09-surface-sounds.md) uses six surface variants plus the base material. They share the shader and images; `surfaceType` supplies the BO3 physical response. This preserves the material calculation across the surface categories without making the earlier shader report a new measurement of the later geometry or sounds.
+
 | Output | Interpretation used by the bake / comparison | Qualification |
 | --- | --- | --- |
 | `vt0.rgb` | Encoded colour | Reported as `colour_srgb` |

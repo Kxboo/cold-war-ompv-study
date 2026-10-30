@@ -2,11 +2,15 @@
 
 A technical study of **One Material Per Vertex (OMPV)** terrain composition in **Call of Duty: Black Ops Cold War**, by Kxboo / SuperTerrain contributors. Published October 29, 2026.
 
-**[Read the study online](https://kxboo.github.io/cold-war-ompv-study/).** Follow the capture workflow, replay contract and validation evidence through eight chapters with source links. An optional, collapsed example at the bottom shows how four control samples combine into material coverage; expand it to experiment with sample position, IDs and reveal after reading the mechanics.
+**[Read the study online](https://kxboo.github.io/cold-war-ompv-study/).** Follow the capture workflow, replay contract, validation evidence and surface-sound integration through nine chapters with source links. An optional, collapsed example at the bottom shows how four control samples combine into material coverage; expand it to experiment with sample position, IDs and reveal after reading the mechanics.
 
 **Cold War’s own materials, blended live in Black Ops 3.** The BO3 terrain uses Cold War’s `zm_silver` layer textures, taken directly from the game, together with the exported [300-entry layer table and control maps](docs/03-shader-port.md#the-zm_silver-inputs). Layer-record and control-map values stay unchanged. Each captured layer texture keeps its native resolution and is packed into a material atlas without resizing; BO3 compresses the material atlases again, while control maps stay uncompressed. **Cold War’s translated terrain shader blends the layers live, per pixel, in game; the terrain material is never baked or blended in advance.** The table contains 44 captured records and 256 zero-filled padding records.
 
 The saved comparison gives **99.96% when expressed as 100 × (1 − normalized mean colour error)**: colour MAE is **0.1133544743/255** over one **1024 × 1024** tile, comparing the translated shader with Cold War’s own terrain shader in Greyhound’s reference bake. This is an offline shader-output result, not a measured match between final in-game images. [How the percentage is calculated](docs/04-validation.md#what-9996-means).
+
+**The reference bake executes Cold War’s original captured shader unchanged**, using captured layer resources under the documented replay inputs. [See the actual saved reference and port images](https://kxboo.github.io/cold-war-ompv-study/#comparison). A fresh comparison of their 8-bit previews finds **82.24% identical RGB pixels** and **98.88% within 1/255 in every colour channel**. [Image checks and fidelity limits](docs/04-validation.md#saved-colour-previews).
+
+**The terrain now has surface-based footsteps and impacts.** Cold War’s captured collision surface map selects snow, rock, dirt, ice, mud and concrete responses in BO3. Six surface variants share the visual shader with the base material; **93.48% of the covered source samples retain their category** in the current playable patches. [Surface sounds, seamless shading and collision](docs/09-surface-sounds.md).
 
 OMPV stores a material ID at each control-map texel. Shading gathers four IDs, combines repeated materials, and evaluates the resulting layers in order. Reveal maps shape the transitions. This compact representation is an input to material composition; virtual texturing handles storage and reuse of the composed result.
 
@@ -27,6 +31,7 @@ The study connects the public terrain presentations to Cold War capture observat
 | [Isolated shader experiments](docs/08-shader-experiments.md) | Pointer-reference discovery, observed reveal equation, distortion, colour blending and normal decoding |
 | [Shader port](docs/03-shader-port.md) | Compute-to-pixel adaptation, resource repacking, derivatives, output channels and exactness limits |
 | [Validation and reproduction](docs/04-validation.md) | Exact saved metrics, failure cases, synthetic checks and comparison of user-supplied outputs |
+| [Surface sounds and collision](docs/09-surface-sounds.md) | Captured surface categories, shared-shader material variants, mapping accuracy, navmesh and the seven-material origin rule |
 | [Sources and provenance](docs/05-sources.md) | Primary presentations, pinned Greyhound source and hashes of the local research evidence |
 
 ## Run the example
@@ -68,7 +73,7 @@ Open `http://localhost:8000`. GitHub Actions publishes `site/` to GitHub Pages w
 
 **Still open:** unexplained outliers, coverage across maps and shader permutations, exact captured-frame resource state, behaviour with weather/decal passes, and equivalence at distant pixel footprints. The RGB control's absolute application cannot be inferred from a successful colour-correlation fit alone.
 
-The repository contains original explanations, synthetic examples and selected numerical evidence. Captured textures, shader binaries/disassembly, game maps, and the full BO3 integration remain external inputs. The earlier Python reconstruction tools and the later shader port are distinct experiments; their results are not interchangeable.
+The repository contains original explanations, synthetic examples, selected numerical evidence and two saved shader-output previews. Captured source-layer textures, shader binaries/disassembly, game maps, and the full BO3 integration remain external inputs. The previews' game-derived artwork is attributed in [NOTICE.md](NOTICE.md). The earlier Python reconstruction tools and the later shader port are distinct experiments; their results are not interchangeable.
 
 ## Credits
 
