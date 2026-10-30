@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+out/
+captures/
+*.bin
+*.dxil
+*.f32
+*.dds
+*.exe
+*.obj

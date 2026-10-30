@@ -1,0 +1,212 @@
+{
+  "schema": "ompv-study-capture-summary-v1",
+  "scope": "Selected facts from earlier saved audits; no fresh capture.",
+  "captures": [
+    {
+      "label": "4a22-fresh",
+      "manifest_sha256": "ad5d77cde8b4338679256610d9fbae9b7fb232e23c44a2e9012dbe44467c58b2",
+      "surfaces": [
+        {
+          "surface": 0,
+          "index": {
+            "binding_id": 11,
+            "image_format": 62,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "colour": {
+            "binding_id": 12,
+            "image_format": 98,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "control": {
+            "binding_id": 13,
+            "image_format": 42,
+            "width": 257,
+            "height": 257,
+            "mip_count": 1
+          }
+        }
+      ],
+      "material_probe": {
+        "slot_referenced_material_count": 22,
+        "rColorRamp_status": "not_observed",
+        "rColorRamp_count": 0
+      }
+    },
+    {
+      "label": "4d94-fresh",
+      "manifest_sha256": "46383867708355c842cd099e26d3b6b447a31b87531e64e66604ea23c974c41e",
+      "surfaces": [
+        {
+          "surface": 0,
+          "index": {
+            "binding_id": 18,
+            "image_format": 62,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "colour": {
+            "binding_id": 19,
+            "image_format": 98,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "control": {
+            "binding_id": 20,
+            "image_format": 42,
+            "width": 257,
+            "height": 257,
+            "mip_count": 1
+          }
+        }
+      ],
+      "material_probe": {
+        "slot_referenced_material_count": 38,
+        "rColorRamp_status": "not_observed",
+        "rColorRamp_count": 0
+      }
+    },
+    {
+      "label": "d7b5-fresh",
+      "manifest_sha256": "7e26f01692afadd5b439b0b20b6d4fbccfb7c5d6f27466f267fc15dab087efc5",
+      "surfaces": [
+        {
+          "surface": 0,
+          "index": {
+            "binding_id": 30,
+            "image_format": 62,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "colour": {
+            "binding_id": 31,
+            "image_format": 98,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "control": {
+            "binding_id": 32,
+            "image_format": 42,
+            "width": 257,
+            "height": 257,
+            "mip_count": 1
+          }
+        },
+        {
+          "surface": 1,
+          "index": {
+            "binding_id": 246,
+            "image_format": 62,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "colour": {
+            "binding_id": 247,
+            "image_format": 98,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "control": {
+            "binding_id": 248,
+            "image_format": 42,
+            "width": 257,
+            "height": 257,
+            "mip_count": 1
+          }
+        }
+      ],
+      "material_probe": {
+        "slot_referenced_material_count": 35,
+        "rColorRamp_status": "not_observed",
+        "rColorRamp_count": 0
+      }
+    },
+    {
+      "label": "eec1-fresh",
+      "manifest_sha256": "470d0141c681323247281c107e09a96fdcc564594da1a6676ff0734e581099cf",
+      "surfaces": [
+        {
+          "surface": 0,
+          "index": {
+            "binding_id": 12,
+            "image_format": 62,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "colour": {
+            "binding_id": 13,
+            "image_format": 98,
+            "width": 2048,
+            "height": 2048,
+            "mip_count": 1
+          },
+          "control": {
+            "binding_id": 14,
+            "image_format": 42,
+            "width": 257,
+            "height": 257,
+            "mip_count": 1
+          }
+        }
+      ],
+      "material_probe": {
+        "slot_referenced_material_count": 4,
+        "rColorRamp_status": "not_observed",
+        "rColorRamp_count": 0
+      }
+    }
+  ],
+  "colour_holdout": {
+    "summary": {
+      "minimum_chroma_explained_variance": 0.047856824405615006,
+      "median_chroma_explained_variance": 0.13276108611006399,
+      "minimum_luminance_explained_variance": 0.16433322824090757,
+      "median_luminance_explained_variance": 0.5255211787793999,
+      "chroma_matrix_fold_stddev": [
+        [
+          0.0105849240373848,
+          0.01892493403035668,
+          0.00888462573298887
+        ],
+        [
+          0.018059788909071957,
+          0.05447751263308804,
+          0.037266118189780144
+        ],
+        [
+          0.009453679830741617,
+          0.03558598283819023,
+          0.02940341440889483
+        ]
+      ],
+      "luminance_scale_fold_stddev": 0.028027972263139436,
+      "within_material_variation_gate": "passed"
+    },
+    "conclusion": {
+      "status": "open",
+      "exact_application_transform_validated": false,
+      "reason": "Within-material variation passes the numerical gate, but slot-centering removes absolute scale; shader evidence is still required."
+    }
+  },
+  "source_material_shader_trace": {
+    "shader_records_across_captures": 512,
+    "unique_binary_sha256_count": 128,
+    "mapwide_binding_material_match_count": {
+      "4a22-fresh": 0,
+      "4d94-fresh": 0,
+      "d7b5-fresh": 0,
+      "eec1-fresh": 0
+    }
+  }
+}
