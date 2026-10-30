@@ -114,6 +114,10 @@
     {
       "file": "capture-summary.json",
       "sha256": "848547e836393282e1fba16e7fef597ba73237bc7c389a9af1bb46dd6822815b"
+    },
+    {
+      "file": "port-resources.json",
+      "sha256": "146ae9cb37f71bb55400649890a51da6406df40f1016c6b6ed9b87f63d40228b"
     }
   ]
 }

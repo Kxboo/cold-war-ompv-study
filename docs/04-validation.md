@@ -15,6 +15,19 @@ These values are differences in floating output values scaled by 255, before rou
 
 The mean is low while some maxima are large. The report does not explain those outliers. It also does not identify a complete driver/compiler/environment manifest or prove which installation-format round trip produced every input. The handoff notes quote different numbers for some channels; this study uses the actual saved JSON rather than mixing those runs.
 
+## What 99.96% means
+
+The main page expresses the saved mean colour error as a percentage:
+
+```text
+100 × (1 − colour_srgb.mae_8bit / 255)
+= 100 × (1 − 0.11335447430610657 / 255)
+= 99.955547264978%
+≈ 99.96%
+```
+
+This is the complement of normalized mean absolute colour error for the **one 1024 × 1024 zm_silver tile** in the saved report. The comparison is the translated shader in a D3D11 WARP harness against Cold War’s own shader in Greyhound’s D3D12 WARP reference bake. It is not a percentage of identical pixels, a perceptual similarity metric, or a measured comparison of final in-game images. It does not summarize normal, roughness, AO, geometry or lighting, and it does not remove the outliers or replay limitations described above.
+
 ## Three evidence levels
 
 The repository distinguishes new synthetic checks, historical instrumented-shader experiments, and comparison of resource-backed shader outputs. A passing check in one level does not substitute for another.

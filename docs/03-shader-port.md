@@ -17,6 +17,14 @@ flowchart TD
 
 The translator aims to preserve arithmetic and control flow while adapting operations the target cannot express directly. Its source and the binding implementation are identified by SHA-256 in [provenance.json](../evidence/provenance.json). The full integration is external to this study; the included HLSL file is a small explanatory example.
 
+## The zm_silver inputs
+
+The Black Ops 3 integration uses Cold War’s own `zm_silver` layer textures, captured directly from the game, alongside the captured layer table and control maps. The generated resource header contains **300 records of 128 bytes each**: **44 captured records plus 256 zero-filled padding records**. These are not 300 distinct terrain materials. Greyhound explicitly appends the padding when exporting the table; the BO3 resource packer preserves the table’s raw integer bits. See the [resource inspection](../evidence/port-resources.json) and [pinned capture code](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L162).
+
+Each captured layer texture retains its native width and height. The packer decodes and places those texels into atlases without resizing, adds wrap borders, and records the original dimensions for sampling. BO3 then recompresses the material atlases and builds mip chains. Control-map values are packed losslessly and loaded exactly, without lossy compression. “Native resolution” here means the captured source level used by the reference bake; it does not assert that the capture retained every available higher-resolution streaming mip.
+
+**Cold War’s translated terrain shader blends these layers live, per pixel, in Black Ops 3. The terrain material is never baked or blended in advance.** Atlas packing changes storage, not the authored layer assignment or material composition. The separate reference bake supplies validation output; it is not the material texture installed on the BO3 terrain. Recompression, atlas borders, mip generation and the shader substitutions below mean this is not a byte-for-byte copy of every resource or of the complete Cold War rendering pipeline.
+
 ## Three substitutions require special attention
 
 1. **Invocation position.** Compute dispatch derives world XY from thread ID, origin and step. The port supplies world XY and two neighbouring positions explicitly. A pixel shader uses its screen-space world-position derivatives; the validation harness supplies the original bake step.

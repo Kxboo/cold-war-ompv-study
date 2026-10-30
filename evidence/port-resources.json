@@ -1,0 +1,19 @@
+{
+  "schema": "ompv-port-resource-inspection-v1",
+  "map": "zm_silver",
+  "scope": "Inspection of the saved native-size BO3 resource header, not a new capture or in-game comparison.",
+  "source_header": {
+    "label": "saved-resources/cwres_native/cw_terrain_data.hlsli",
+    "bytes": 176670,
+    "sha256": "0a48c331880f4aee3869b67a3e015371c5f8b6260481c46536051cbf13d304af"
+  },
+  "layer_table": {
+    "record_bytes": 128,
+    "total_records": 300,
+    "captured_records": 44,
+    "zero_padding_records": 256,
+    "padding_all_zero": true
+  },
+  "padding_source": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L162",
+  "interpretation": "The exported table has 300 records, not 300 distinct terrain materials. The source capture appends 256 zero records; the saved generated table has 44 nonzero records followed by those 256 zero records."
+}

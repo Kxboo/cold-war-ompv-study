@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f3ec">
-  <meta name="description" content="An illustrated research study of Cold War's One Material Per Vertex terrain: interactive synthetic examples, a source-linked capture and replay walkthrough, and scoped validation evidence.">
+  <meta name="description" content="Cold War's zm_silver terrain materials, blended live per pixel in Black Ops 3 by a translated terrain shader. Study the original inputs, capture workflow and measured shader comparison.">
   <title>Cold War OMPV — SuperTerrain Field Notes</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -22,7 +22,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> GRAPHICS RESEARCH / BLACK OPS COLD WAR</p>
         <h1 id="hero-title">Terrain, one<br> material<br> at a <em>time.</em></h1>
-        <p class="hero-deck">A study of One Material Per Vertex in Cold War. Follow the capture path, examine the replay inputs, and read the evidence behind the reconstructed terrain material.</p>
+        <p class="hero-deck">Cold War’s own terrain materials, blended live in Black Ops 3. Follow the original inputs, the translated shader and the evidence behind the result.</p>
         <div class="hero-actions"><a class="button primary" href="#study">Read the study <span aria-hidden="true">↓</span></a><a class="text-link" href="chapters/06-capture-workflow.html">Follow the capture <span aria-hidden="true">↗</span></a></div>
         <p class="hero-byline">Kxboo / SuperTerrain contributors <span>·</span> October 2026</p>
       </div>
@@ -31,6 +31,24 @@
         <img src="assets/terrain-field.svg" alt="Original synthetic terrain diagram: a raised wireframe field with categorical control samples and a highlighted four-sample footprint." width="720" height="560">
         <figcaption><span class="figure-key"><i class="key-ochre"></i> MATERIAL ID</span><span class="figure-key"><i class="key-green"></i> CONTROL SAMPLE</span><span>Illustration, not captured terrain</span></figcaption>
       </figure>
+    </section>
+
+    <section class="port-overview wrap" id="bo3-port" aria-labelledby="port-title">
+      <div class="port-overview-copy">
+        <p class="eyebrow">COLD WAR → BLACK OPS 3 / ZM_SILVER</p>
+        <h2 id="port-title">Original layers. Live, per-pixel blending.</h2>
+        <p>The Black Ops 3 terrain uses <strong>Cold War’s own <code>zm_silver</code> layer textures, taken directly from the game</strong>, together with the exported <a href="chapters/03-shader-port.html#the-zm_silver-inputs">300-entry layer table</a> (44 captured records plus 256 zero-filled padding records) and its control maps. The layer-record and control-map values stay unchanged. Each captured layer texture keeps its native resolution: the layer textures are packed into material atlases without resizing, then BO3 compresses those atlases again. Control maps stay uncompressed.</p>
+        <p><strong>Cold War’s translated terrain shader blends the layers live, per pixel, in game.</strong> The terrain material is never baked or blended in advance.</p>
+        <a class="text-link" href="chapters/03-shader-port.html#the-zm_silver-inputs">How the original inputs reach BO3 <span aria-hidden="true">↗</span></a>
+      </div>
+      <aside class="port-comparison" aria-label="Scope of the 99.96 percent result">
+        <p class="eyebrow">SAVED SHADER COMPARISON</p>
+        <strong class="port-comparison-number">99.96<span>%</span></strong>
+        <p><strong>From mean colour error on one 1024 × 1024 tile</strong>, comparing the translated shader with Cold War’s own terrain shader running in Greyhound’s reference bake.</p>
+        <p class="port-comparison-formula">100 × (1 − 0.1133544743 / 255)</p>
+        <p>This is an offline shader-output measurement, not a measured match between final in-game images.</p>
+        <a class="text-link" href="chapters/04-validation.html#what-9996-means">Read the measurement and its scope <span aria-hidden="true">↗</span></a>
+      </aside>
     </section>
 
     <div class="thesis wrap">

@@ -4,9 +4,13 @@ A technical study of **One Material Per Vertex (OMPV)** terrain composition in *
 
 **[Read the study online](https://kxboo.github.io/cold-war-ompv-study/).** Follow the capture workflow, replay contract and validation evidence through eight chapters with source links. An optional, collapsed example at the bottom shows how four control samples combine into material coverage; expand it to experiment with sample position, IDs and reveal after reading the mechanics.
 
+**Cold War’s own materials, blended live in Black Ops 3.** The BO3 terrain uses Cold War’s `zm_silver` layer textures, taken directly from the game, together with the exported [300-entry layer table and control maps](docs/03-shader-port.md#the-zm_silver-inputs). Layer-record and control-map values stay unchanged. Each captured layer texture keeps its native resolution and is packed into a material atlas without resizing; BO3 compresses the material atlases again, while control maps stay uncompressed. **Cold War’s translated terrain shader blends the layers live, per pixel, in game; the terrain material is never baked or blended in advance.** The table contains 44 captured records and 256 zero-filled padding records.
+
+The saved comparison gives **99.96% when expressed as 100 × (1 − normalized mean colour error)**: colour MAE is **0.1133544743/255** over one **1024 × 1024** tile, comparing the translated shader with Cold War’s own terrain shader in Greyhound’s reference bake. This is an offline shader-output result, not a measured match between final in-game images. [How the percentage is calculated](docs/04-validation.md#what-9996-means).
+
 OMPV stores a material ID at each control-map texel. Shading gathers four IDs, combines repeated materials, and evaluates the resulting layers in order. Reveal maps shape the transitions. This compact representation is an input to material composition; virtual texturing handles storage and reuse of the composed result.
 
-The study connects the public terrain presentations to Cold War capture observations and a later DXIL-to-HLSL port experiment. Its strongest numerical result is a saved **1024 × 1024 atlas-backed comparison against Greyhound's reference bake**: colour MAE **0.113/255** and validity agreement **100%**. This is one tile under the bake's reconstructed inputs, provisional samplers, and omitted weather globals. It does not establish full-frame or all-map equivalence.
+The study connects the public terrain presentations to Cold War capture observations and a later DXIL-to-HLSL port experiment. The saved comparison has **100% validity agreement** under the bake’s reconstructed inputs, provisional samplers and omitted weather globals. It does not establish full-frame or all-map equivalence.
 
 ![Four control samples combine into two materials: ID 2 contributes 0.5625; three ID 7 samples sum to 0.4375. Bars show bilinear coverage before reveal.](assets/ompv-gather.svg)
 
