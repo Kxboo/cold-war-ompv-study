@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f3ec"><meta name="description" content="The composition shader port experiment — the Cold War OMPV research study, with source references and explicit evidence boundaries."><title>The composition shader port experiment — Cold War OMPV</title><link rel="icon" href="../assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"></head>
+<body><a class="skip-link" href="#article">Skip to content</a>
+<header class="site-header"><a class="wordmark" href="../" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a><nav aria-label="Main navigation"><a href="../#explorer">Explorer</a><a href="../#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+<div class="reader-header wrap"><a href="../#study">← All field notes</a><p class="eyebrow">CHAPTER 03 / COLD WAR OMPV</p></div>
+<main class="reader-layout wrap"><aside class="reader-sidebar" aria-label="Study navigation"><p class="eyebrow">THE COMPLETE STUDY</p><nav aria-label="Chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html" aria-current="page">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="On this page"><a href="#reference-and-target">Reference and target</a><a href="#three-substitutions-require-special-attention">Three substitutions require special attention</a><a href="#atlases-and-filtering">Atlases and filtering</a><a href="#output-interpretation">Output interpretation</a><a href="#further-experiments">Further experiments</a></nav></div><details class="reader-mobile-nav"><summary>Chapters &amp; this page</summary><nav aria-label="Mobile chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html" aria-current="page">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><nav aria-label="Mobile page contents"><a href="#reference-and-target">Reference and target</a><a href="#three-substitutions-require-special-attention">Three substitutions require special attention</a><a href="#atlases-and-filtering">Atlases and filtering</a><a href="#output-interpretation">Output interpretation</a><a href="#further-experiments">Further experiments</a></nav></div></details></aside>
+<article id="article" class="article-body"><h1 id="the-composition-shader-port-experiment">The composition shader port experiment</h1>
+<h2 id="reference-and-target">Reference and target</h2>
+<p>The reference path runs the supported Cold War compute bytecode on D3D12 WARP. The experimental port translates its DXIL listing into HLSL and runs through a D3D11 WARP harness. BO3 integration evaluates the translated composition from a pixel shader. These are separate execution contexts.</p>
+<figure class="flow-diagram"><figcaption>Port experiment: compare aligned reference and candidate outputs; validate BO3 integration separately.</figcaption><div class="flow-node flow-origin">Supported shader and saved inputs</div><div class="flow-fork-label">Reference and candidate <span aria-hidden="true">↙ &nbsp; ↘</span></div><div class="flow-branches comparison-branches"><section class="flow-branch"><h4>Reference execution</h4><ol class="flow-sequence"><li><span class="flow-node">Greyhound D3D12 reference bake</span></li></ol></section><section class="flow-branch"><h4>Translated candidate</h4><ol class="flow-sequence"><li><span class="flow-node">Translate instructions and repack resources</span></li><li><span class="flow-node">D3D11 HLSL validation harness</span></li></ol></section></div><div class="flow-merge"><span aria-hidden="true">↘ &nbsp; ↙</span><div class="flow-node flow-result">Compare aligned output channels</div></div><div class="flow-offshoot"><p>Separate branch from translation</p><ol class="flow-entry"><li><span class="flow-node">BO3 pixel shader integration</span></li><li><span class="flow-node">Separate in-game and footprint validation</span></li></ol></div></figure><details class="flow-source"><summary>View diagram source</summary><pre><code>flowchart TD
+    A[Supported shader and saved inputs] --&gt; B[Greyhound D3D12 reference bake]
+    A --&gt; C[Translate instructions and repack resources]
+    C --&gt; D[D3D11 HLSL validation harness]
+    B --&gt; E[Compare aligned output channels]
+    D --&gt; E
+    C --&gt; F[BO3 pixel shader integration]
+    F --&gt; G[Separate in-game and footprint validation]</code></pre></details>
+<p>The translator aims to preserve arithmetic and control flow while adapting operations the target cannot express directly. Its source and the binding implementation are identified by SHA-256 in <a href="../data/provenance.json">provenance.json</a>. The full integration is external to this study; the included HLSL file is a small explanatory example.</p>
+<h2 id="three-substitutions-require-special-attention">Three substitutions require special attention</h2>
+<ol>
+<li><strong>Invocation position.</strong> Compute dispatch derives world XY from thread ID, origin and step. The port supplies world XY and two neighbouring positions explicitly. A pixel shader uses its screen-space world-position derivatives; the validation harness supplies the original bake step.</li>
+<li><strong>Resource access.</strong> Bindless descriptors become binding-interface calls. Layer textures occupy atlases; integer controls are packed into lossless byte images and reconstructed through exact loads. Atlas coordinates retain each source image&#x27;s native dimensions and an eight-texel wrap border.</li>
+<li><strong>Group-shared operations.</strong> The quad derivative exchange is rebuilt using neighbouring positions. The port replaces the shared <code>gHeightCacheDisplace</code> reduction with a per-texel value. Following that replacement through the generated assignments places its result in <strong><code>vt2.y</code></strong>. The translator&#x27;s introductory comment incorrectly says <code>vt2.w</code>; the implementation trace takes precedence. The reported comparison evaluates only <code>vt2.x</code>, so it does not validate this reduction or establish equivalence of all output channels. See the <a href="08-shader-experiments.html#normal-decoding-and-the-reduction-channel">channel audit</a>.</li>
+</ol>
+<p>The shader gate needs care: the inspected translator checks an adjacent binary if present, but permits translation of a listing when that binary is absent. A constant hash printed in a generated header is not proof of input identity. Reproduction must explicitly hash the captured binary and establish that the disassembly came from it.</p>
+<h2 id="atlases-and-filtering">Atlases and filtering</h2>
+<p>Resampling source textures changes the effective signal, even if the atlas UV math looks plausible. The later resource packer preserves native texture sizes. Control maps use exact byte recovery; material colour sampling observes the appropriate colour-space conversion. A map-wide integer index must not pass through colour conversion, lossy compression or interpolated material IDs.</p>
+<p>At the bake&#x27;s own texel step, its one-mip material inputs select mip zero. The pixel integration applies this footprint-dependent LOD rule:</p>
+<pre class="code-block"><code>lod = max(0, min(hardware_lod, log2(pixel_world_footprint / bake_step)))</code></pre>
+<p>The harness runs at a footprint ratio of one. Agreement there does not validate all distant footprints. Sampling lower mips of each source material before nonlinear reveal/composition is not generally identical to filtering an already composed result. Atlas borders and mip generation also need verification at coarser levels, especially between unrelated atlas cells.</p>
+<h2 id="output-interpretation">Output interpretation</h2>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Output</th>
+<th scope="col">Interpretation used by the bake / comparison</th>
+<th scope="col">Qualification</th>
+</tr></thead><tbody>
+<tr>
+<td><code>vt0.rgb</code></td>
+<td>Encoded colour</td>
+<td>Reported as <code>colour_srgb</code></td>
+</tr>
+<tr>
+<td><code>vt0.a &gt; 0.5</code></td>
+<td>Validity mask</td>
+<td>Evaluated separately from colour error</td>
+</tr>
+<tr>
+<td><code>vt1.xy</code></td>
+<td>Encoded detail-normal components</td>
+<td>Error here is not a decoded normal-vector angle</td>
+</tr>
+<tr>
+<td><code>vt1.z</code></td>
+<td>Roughness</td>
+<td>Bake&#x27;s gloss image uses <code>1 - roughness</code></td>
+</tr>
+<tr>
+<td><code>vt2.x</code></td>
+<td>Ambient occlusion</td>
+<td>Scalar comparison</td>
+</tr>
+<tr>
+<td><code>vt2.y</code></td>
+<td>Receives the substituted shared-reduction result</td>
+<td>Outside the reported equivalence scope</td>
+</tr>
+<tr>
+<td><code>vt2.zw</code></td>
+<td>Other outputs</td>
+<td>Outside the reported equivalence scope</td>
+</tr>
+</tbody></table></div>
+<p>The bake decodes the two normal components using:</p>
+<pre class="code-block"><code>q  = (encoded_xy - 0.5) * 4
+l2 = dot(q,q)
+xy = q * sqrt(max(0, 1 - l2/4))
+z  = 1 - l2/2</code></pre>
+<p>Its conventional exported map flips the green component for the export frame. The BO3 pixel integration instead projects the detail normal using terrain orientation and its G-buffer conventions. Neither should be described as a direct copy of a final lit Cold War pixel. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/output_maps.py">Public output-map conversion</a>.</p>
+<h2 id="further-experiments">Further experiments</h2>
+<p>Prioritize boundary crops and the largest outliers, then additional tiles and maps. Compare encoded and decoded normal errors separately. Add explicit weather, decal, sampler, source-mip and shader-permutation coverage. For the pixel integration, sweep footprints and camera distances against a well-defined filtered reference, and validate the geometry frame independently.</p><a class="source-link" href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/docs/03-shader-port.md">Read this chapter’s Markdown source ↗</a><nav class="chapter-pager" aria-label="Adjacent chapters"><a href="02-cold-war-evidence.html"><span>← PREVIOUS CHAPTER</span>Cold War capture evidence</a><a href="04-validation.html"><span>NEXT CHAPTER →</span>Validation and reproduction</a></nav></article></main>
+<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>

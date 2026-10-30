@@ -5,6 +5,8 @@
 // u0: float4 output image; b0: output dimensions and two padding uints.
 // UV covers the index grid, clamped at edges. All IDs 0..255 are legal.
 // No distortion, source textures, wave coordination, VT, or normal outputs.
+// Teaching selection drops zero-weight IDs. The captured variant can retain
+// a zero-weight lowest gathered ID as its base (see docs/08-shader-experiments.md).
 Texture2D<uint> IndexMap : register(t0);
 Texture2D<float4> Controls : register(t1);
 StructuredBuffer<float4> Materials : register(t2);

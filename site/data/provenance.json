@@ -1,0 +1,119 @@
+{
+  "schema": "ompv-study-provenance-v1",
+  "publication_date": "2026-10-29",
+  "greyhound_commit": "2f3d1020ede04602759d5eb68405df519ec8221b",
+  "supported_composition_binary_sha256": "6159daeb7882198314ffe9e8b6fab53c1b314258b43a106c1694c5a53d77d9ff",
+  "scope": "Hashes identify inspected local files, including uncommitted research. No fresh game capture or WARP replay is claimed.",
+  "sources": [
+    {
+      "label": "research-evidence/ompv_fresh_capture_correlation.json",
+      "bytes": 28206,
+      "sha256": "730478e6bee6852250642fa920d190d415a85d81c48d9939658991b2f0a9550a"
+    },
+    {
+      "label": "research-evidence/ompv_colour_holdout.json",
+      "bytes": 7543,
+      "sha256": "f89218eef935601a100590b342998f3e418fca8cfd22652cbd8ab1cf3f915bf1"
+    },
+    {
+      "label": "research-evidence/ompv_shader_trace.json",
+      "bytes": 537091,
+      "sha256": "3457f3ed89cab6e1878b76a9384ad7a93df3f6b463bb19d02f060b22f07edde9"
+    },
+    {
+      "label": "local-research/tools/core/ompv.py",
+      "bytes": 61777,
+      "sha256": "bdeb7ac49494b507d8a11a141ab0bab4be1cb4e754cd38e92d16526e21473d8a"
+    },
+    {
+      "label": "local-research/tools/reconstruction/ompv_composite.py",
+      "bytes": 75173,
+      "sha256": "1c115fdec098a56369aa4d4006b7573a5043ff76dba2585c01354520e3be7eca"
+    },
+    {
+      "label": "local-research/tools/reconstruction/ompv_splat.py",
+      "bytes": 113007,
+      "sha256": "c852e4ff9b14721c6b69a2d51e7b50c2873fce9ad8cd76c1b14ccd490d2263a7"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/translate_composition.py",
+      "bytes": 26467,
+      "sha256": "4d6834fe5ce41f838ee72b119e1b4d118267dc81b8cdffa9f4c79db7ce314fff"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/build_resources.py",
+      "bytes": 13165,
+      "sha256": "8d1722a5e45fb3bcfb70c9a88551321ef2f37d9306ac701348347803723e057a"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/cw_terrain_resources.hlsli",
+      "bytes": 12109,
+      "sha256": "3e6fd61ffb373db9311bc71b2b87af8fcef00dca18adaa2a51f7927128ed385e"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/cw_terrain_composition.hlsli",
+      "bytes": 330179,
+      "sha256": "dbbb625564ae3e920820d04b307041280b912d6fd18ec4c330a53cebf74b8e07"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/cw_terrain_ps.hlsl.in",
+      "bytes": 5206,
+      "sha256": "a4210085d44fa528114da61f050e0f568123aeff7c0d8d7c49bddbdf7a871e76"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/validate.py",
+      "bytes": 3858,
+      "sha256": "1e348ba25cecc90d8fe8208ad9fc759f637271b9d2c2e9757f5af0b3757e2b8b"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/harness/cw_terrain_harness.cpp",
+      "bytes": 7690,
+      "sha256": "19babfd427846d572d1787fc6dd74e461a48d73523ede433a9acd73f72cea8a5"
+    },
+    {
+      "label": "local-research/tools/bo3/cw_terrain_shader/harness/cw_terrain_harness.hlsl",
+      "bytes": 966,
+      "sha256": "e2d55b8937670bb9170eb8c8735c3eaa8f248360cacf430b5b15e37567b89658"
+    },
+    {
+      "label": "local-research/docs/CW_TERRAIN_SHADER_BO3_HANDOFF_2026_10_29.md",
+      "bytes": 17800,
+      "sha256": "f1f2bf6ca41205f9484ac0abfa3971cfe2116120f16e520aeface01fdff7539c"
+    },
+    {
+      "label": "saved-validation/val_native/report.json",
+      "bytes": 613,
+      "sha256": "0d9442e5fd87e3338a2298cf712b9bef40fa401ecba0827650a25886240a4bf8"
+    },
+    {
+      "label": "primary-presentation/GDC21_Terrain_of_CoD.pptx",
+      "bytes": 750047974,
+      "sha256": "3ea87c446ec4caf5c231f4e18e76831542e974fb0b7dbec7a49647d1023e15c1"
+    },
+    {
+      "label": "greyhound/tools/cold_war/terrain/bake.py",
+      "bytes": 15602,
+      "sha256": "afeeb8b46931b10cae9bad38dddaa414026ba0c0a39bd1e1404073c3f05c61b2"
+    },
+    {
+      "label": "greyhound/tools/cold_war/terrain/run_composition.cpp",
+      "bytes": 18283,
+      "sha256": "9d92556be13b46babff486e502a8d97f6a80f609fd70d9d5ebb17a1a89068b1b"
+    },
+    {
+      "label": "greyhound/tools/cold_war/terrain/output_maps.py",
+      "bytes": 1646,
+      "sha256": "8630a0fed48ee00b3295f658ce1d83fd077c1c7eb9d280953135f558e1c69bef"
+    }
+  ],
+  "published_evidence": [
+    {
+      "file": "shader-validation.json",
+      "sha256": "f7d5f236f5f02fc1c9ec47c654d1f437ba78ada929eb3bb701515d7e2795d785"
+    },
+    {
+      "file": "capture-summary.json",
+      "sha256": "848547e836393282e1fba16e7fef597ba73237bc7c389a9af1bb46dd6822815b"
+    }
+  ]
+}

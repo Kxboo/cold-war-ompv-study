@@ -1,0 +1,418 @@
+{
+  "schema": "ompv-greyhound-source-map-v1",
+  "repository": "https://github.com/Kxboo/Greyhound",
+  "commit": "2f3d1020ede04602759d5eb68405df519ec8221b",
+  "hash_convention": "SHA-256 of exact Git blob bytes; excerpt hashes normalize line separators to LF and include a final LF",
+  "sources": [
+    {
+      "id": "reader",
+      "path": "src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp",
+      "bytes": 128943,
+      "line_count": 2744,
+      "sha256": "a9933a20bf638fb246e705d4c575a846f849ec1f55f350e321fdbbcc0de72a0e",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp"
+    },
+    {
+      "id": "export",
+      "path": "src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp",
+      "bytes": 359023,
+      "line_count": 6911,
+      "sha256": "5f976004e1425dba21d15047bec0a3bba1254371ab7cf45b3681045a042f8571",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp"
+    },
+    {
+      "id": "capture",
+      "path": "src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h",
+      "bytes": 11014,
+      "line_count": 169,
+      "sha256": "5eab9020af8110657ad89f6a454f0c11d8fe8601fb7bcecca1cf450d219dc1d0",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h"
+    },
+    {
+      "id": "archive",
+      "path": "src/WraithXCOD/WraithXCOD/assets/TerrainResearchCapture.h",
+      "bytes": 29573,
+      "line_count": 503,
+      "sha256": "efc199c571da4755ba5002e99da58c8ca2d887203e36d45b89ac75095e419005",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/TerrainResearchCapture.h"
+    },
+    {
+      "id": "bake",
+      "path": "tools/cold_war/terrain/bake.py",
+      "bytes": 15330,
+      "line_count": 285,
+      "sha256": "3f79446008a8bfe7151d3e38427dce17fde923509801758a238775f91a9eea0f",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py"
+    },
+    {
+      "id": "runner",
+      "path": "tools/cold_war/terrain/run_composition.cpp",
+      "bytes": 18044,
+      "line_count": 239,
+      "sha256": "be338944efa58fa2791abaac4e88c5c9cd24fd3951c6eacd809f8e489742d275",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp"
+    },
+    {
+      "id": "maps",
+      "path": "tools/cold_war/terrain/output_maps.py",
+      "bytes": 1646,
+      "line_count": 33,
+      "sha256": "8630a0fed48ee00b3295f658ce1d83fd077c1c7eb9d280953135f558e1c69bef",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/output_maps.py"
+    },
+    {
+      "id": "finalize",
+      "path": "tools/cold_war/terrain/finalize.py",
+      "bytes": 3308,
+      "line_count": 60,
+      "sha256": "17167d327f26bcda96894c90f83b5ad973b528142089265eaa043b069e4176ca",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/finalize.py"
+    },
+    {
+      "id": "build",
+      "path": "tools/cold_war/terrain/build.ps1",
+      "bytes": 790,
+      "line_count": 8,
+      "sha256": "0b2ff60278f90957796a604100b5fff8b3c9752b71684e78ff60e0e6a4f86f9d",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/build.ps1"
+    },
+    {
+      "id": "docs",
+      "path": "docs/README.md",
+      "bytes": 10150,
+      "line_count": 195,
+      "sha256": "2dd102341f83249b5987380323a8e720d11ba10a14bba7a1285763a1c8eaf61a",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/README.md"
+    },
+    {
+      "id": "research-docs",
+      "path": "docs/capture-research.md",
+      "bytes": 9093,
+      "line_count": 170,
+      "sha256": "319ee482b1fd1434cf873fb064a05b622528052eb1fc78a0063f9faf39064a7a",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/capture-research.md"
+    }
+  ],
+  "references": [
+    {
+      "id": "pool-layout",
+      "source": "reader",
+      "start": 163,
+      "end": 170,
+      "excerpt_sha256": "35655f4106fffb7476119ab6b8af212d7d2c3c83ea1d0a3782847230b7af31df",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L163-L170"
+    },
+    {
+      "id": "pool-discovery",
+      "source": "reader",
+      "start": 174,
+      "end": 320,
+      "excerpt_sha256": "90d5d4f258473c0d3baad188e8adac352f4a98eabb103ddc102bbc9138542e8c",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L174-L320"
+    },
+    {
+      "id": "terrain-discovery",
+      "source": "reader",
+      "start": 1580,
+      "end": 1627,
+      "excerpt_sha256": "ea22fffa8e39914dca32643939a5e83ba72ff96ab1d06f09bb8034a7c162c4c1",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L1580-L1627"
+    },
+    {
+      "id": "archive-records",
+      "source": "reader",
+      "start": 751,
+      "end": 774,
+      "excerpt_sha256": "f74690b3bb7cf8052173dc66cf545cedebf0b6f5ce41a4b94faf7fbc8f1296a2",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L751-L774"
+    },
+    {
+      "id": "archive-stability",
+      "source": "reader",
+      "start": 879,
+      "end": 886,
+      "excerpt_sha256": "667ac5e86df5341de8798a5c5e63deb172920235928246fc1525a84204678d0d",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L879-L886"
+    },
+    {
+      "id": "dispatch-choice",
+      "source": "export",
+      "start": 1340,
+      "end": 1343,
+      "excerpt_sha256": "f2a2b03cd68806ab427fa4647ea8ba8aa5b6dde920102a0d46e8fc5e859189d7",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L1340-L1343"
+    },
+    {
+      "id": "production-entry",
+      "source": "export",
+      "start": 2600,
+      "end": 2697,
+      "excerpt_sha256": "0d0a1cd73f9e15fc80923ee6455a120b4d922ad8aa5c7174f82f2182e62fb36f",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L2600-L2697"
+    },
+    {
+      "id": "source-only-entry",
+      "source": "export",
+      "start": 2700,
+      "end": 2739,
+      "excerpt_sha256": "f9d4bee4f19354103d455378ec4e0e33c72f26737c49cbbdd2b138c1c04c253b",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L2700-L2739"
+    },
+    {
+      "id": "read-bounds",
+      "source": "capture",
+      "start": 18,
+      "end": 30,
+      "excerpt_sha256": "5fa9c63fea446152653f95a798a9b05a2df3c1b5d1a7e7ca46d80edb53da4aea",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L18-L30"
+    },
+    {
+      "id": "image-bytes",
+      "source": "capture",
+      "start": 42,
+      "end": 52,
+      "excerpt_sha256": "1207ca152a82db1bac6fcdc501e6b24c3a9926cb397a3876d67317af3f669d72",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L42-L52"
+    },
+    {
+      "id": "image-capture",
+      "source": "capture",
+      "start": 54,
+      "end": 92,
+      "excerpt_sha256": "688bdb60dcdff67c81b598df783ab7e3f8c0ae5b2d9a300a62dfa3d0101af865",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L54-L92"
+    },
+    {
+      "id": "build-gate",
+      "source": "capture",
+      "start": 94,
+      "end": 105,
+      "excerpt_sha256": "bab4d96eaf42474983575fcd7a58205b61b4ec91e8f01694002bf65528a3687b",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L94-L105"
+    },
+    {
+      "id": "frame-lists",
+      "source": "capture",
+      "start": 106,
+      "end": 120,
+      "excerpt_sha256": "1e6a3047bfceda0bd287d553b40e1bdbfa8a486c819acb4d99780e37c11a8f89",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L106-L120"
+    },
+    {
+      "id": "mapping-join",
+      "source": "capture",
+      "start": 121,
+      "end": 142,
+      "excerpt_sha256": "e316d67d23b7fa68fee0bad642ed51e44a62aba364dc497953d8806cf33557c2",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L121-L142"
+    },
+    {
+      "id": "texture-ids",
+      "source": "capture",
+      "start": 143,
+      "end": 151,
+      "excerpt_sha256": "193448e3bee76d70e3bc9985d017f66f480e0bcadcca413332ac1998ac8691e0",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L143-L151"
+    },
+    {
+      "id": "shader-global",
+      "source": "capture",
+      "start": 153,
+      "end": 161,
+      "excerpt_sha256": "41baa0d724b77c6d5a93973a3ac40be1e32c4a2ebaa1ca09f92d095ec713b342",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L153-L161"
+    },
+    {
+      "id": "input-seal",
+      "source": "capture",
+      "start": 162,
+      "end": 167,
+      "excerpt_sha256": "3de7d2d129de9c02a13c3fd983791d84823432511703875b1e2bd148903564b1",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L162-L167"
+    },
+    {
+      "id": "material-technique-shaders",
+      "source": "archive",
+      "start": 351,
+      "end": 374,
+      "excerpt_sha256": "30992c3ecb3b6dfd9c72c26fc5af6faf2da9bb3f7ba726083ddbee29b71c9f8f",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/TerrainResearchCapture.h#L351-L374"
+    },
+    {
+      "id": "bake-limits",
+      "source": "bake",
+      "start": 21,
+      "end": 28,
+      "excerpt_sha256": "4d41dedf9ae4fcea72eb73df10f0739693e15c8f55ba5726fcd8777487031e96",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L21-L28"
+    },
+    {
+      "id": "geometry",
+      "source": "bake",
+      "start": 48,
+      "end": 94,
+      "excerpt_sha256": "16720176a385b93a82294d0a00ce8522cda2d4c947c1232365b40fae7df018df",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L48-L94"
+    },
+    {
+      "id": "binary-gate",
+      "source": "bake",
+      "start": 97,
+      "end": 102,
+      "excerpt_sha256": "efebe684066162ec6fdb637d1b0ea62c0fad1a10d88498d9fbfad30af93984c6",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L97-L102"
+    },
+    {
+      "id": "scene-constants",
+      "source": "bake",
+      "start": 111,
+      "end": 114,
+      "excerpt_sha256": "96f1da6726b1b806dcfb446b1804bf188dcf0291efde91759b2a5e549cafe7d7",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L111-L114"
+    },
+    {
+      "id": "dispatch-constants",
+      "source": "bake",
+      "start": 163,
+      "end": 177,
+      "excerpt_sha256": "b28a1299403e1911794a4c2100110891352b69f42c1049f706d3aab051294266",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L163-L177"
+    },
+    {
+      "id": "persistent-runner",
+      "source": "bake",
+      "start": 178,
+      "end": 194,
+      "excerpt_sha256": "7ea1752209b0126cb2897143a1664744012782835666e469fff0f1353c5163f4",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L178-L194"
+    },
+    {
+      "id": "coverage-check",
+      "source": "bake",
+      "start": 228,
+      "end": 232,
+      "excerpt_sha256": "a8cb98300e65dcb3640dc429cbacf81bc748183bf79f8daf813b8e987f264f31",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L228-L232"
+    },
+    {
+      "id": "final-report",
+      "source": "bake",
+      "start": 268,
+      "end": 275,
+      "excerpt_sha256": "dbd0f50cbea22384328346d99d552fc2c231876155c0947dd43a353a68a79e93",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L268-L275"
+    },
+    {
+      "id": "bake-cli",
+      "source": "bake",
+      "start": 278,
+      "end": 285,
+      "excerpt_sha256": "962c5f27db594972d3679b2853937b3aabf93f84d2f92d11370ccd5f83f11e13",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L278-L285"
+    },
+    {
+      "id": "runner-input",
+      "source": "runner",
+      "start": 30,
+      "end": 44,
+      "excerpt_sha256": "9a077b83c8d68f24474310ad23d13dc2db568d62c344a657366cef4e1cf301cc",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L30-L44"
+    },
+    {
+      "id": "texture-upload",
+      "source": "runner",
+      "start": 59,
+      "end": 85,
+      "excerpt_sha256": "c7a149d155b1f50c815f91a19536affce87b112ca7ace06384015782df5cc9dd",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L59-L85"
+    },
+    {
+      "id": "buffer-strides",
+      "source": "runner",
+      "start": 89,
+      "end": 109,
+      "excerpt_sha256": "091b3fa59fdfe83bb7af3548271abc32fb620c710f29a5b625a63396b366584e",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L89-L109"
+    },
+    {
+      "id": "fixed-textures",
+      "source": "runner",
+      "start": 110,
+      "end": 135,
+      "excerpt_sha256": "95e945bccb6dc8394f044d777c895894239f8e8db895b97939d7f2be0e7693e1",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L110-L135"
+    },
+    {
+      "id": "root-signature",
+      "source": "runner",
+      "start": 148,
+      "end": 178,
+      "excerpt_sha256": "a9e2eef7d4d7a2cedb986a930636652be52aa8b372013fedc01802a2e2570cd0",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L148-L178"
+    },
+    {
+      "id": "dispatch-readback",
+      "source": "runner",
+      "start": 190,
+      "end": 213,
+      "excerpt_sha256": "378ec25f739bf62a86d30a6cea6f0757ec8decc8774065a164bb4027ea9bd3ba",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L190-L213"
+    },
+    {
+      "id": "server-protocol",
+      "source": "runner",
+      "start": 215,
+      "end": 237,
+      "excerpt_sha256": "e4613492e111304bddaf6673a8e0f0f2beeb504bb580d82d3595a0d5f71dc7c2",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L215-L237"
+    },
+    {
+      "id": "output-maps",
+      "source": "maps",
+      "start": 11,
+      "end": 33,
+      "excerpt_sha256": "3637ddf7c667c65b26c2334d3d176e8a9047b37639d89ec40418b9e519192f1c",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/output_maps.py#L11-L33"
+    },
+    {
+      "id": "finalize-lifecycle",
+      "source": "finalize",
+      "start": 8,
+      "end": 54,
+      "excerpt_sha256": "7173702dc1395f9b6a5ca540b727c79f56038b63e23cc2e2d5d7849cab469c67",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/finalize.py#L8-L54"
+    },
+    {
+      "id": "build-runner",
+      "source": "build",
+      "start": 1,
+      "end": 8,
+      "excerpt_sha256": "0b2ff60278f90957796a604100b5fff8b3c9752b71684e78ff60e0e6a4f86f9d",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/build.ps1#L1-L8"
+    },
+    {
+      "id": "build-fork",
+      "source": "docs",
+      "start": 36,
+      "end": 77,
+      "excerpt_sha256": "b718f45fc785a582226a4cdc2a96dbc1b10fee0553e782dcac65909f20f568e3",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/README.md#L36-L77"
+    },
+    {
+      "id": "run-fork",
+      "source": "docs",
+      "start": 79,
+      "end": 130,
+      "excerpt_sha256": "792e12c84fec83aae360bb6e4b49d1925a5157f424d0e5211dea4f86e05e3bc7",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/README.md#L79-L130"
+    },
+    {
+      "id": "capture-routes",
+      "source": "research-docs",
+      "start": 9,
+      "end": 26,
+      "excerpt_sha256": "ba5375b54a38eed8fd754e2908c2d597dfc3f797c443ca87ac41dc57c89bae8f",
+      "url": "https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/capture-research.md#L9-L26"
+    }
+  ]
+}

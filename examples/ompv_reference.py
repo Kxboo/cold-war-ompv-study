@@ -55,7 +55,13 @@ def gather(index_map, uv, controls=None):
 
 
 def combine(samples):
-    """Combine weights and premultiplied controls, then sort numerically."""
+    """Combine positive weights and premultiplied controls, then sort by ID.
+
+    This teaching model omits zero-weight IDs. The supported captured variant
+    can retain a zero-weight lowest gathered ID as its opaque base; see the
+    shader-experiments chapter. Do not use this helper to assert that boundary
+    behavior is reproduced.
+    """
     entries = {}
     for material, weight, control in samples:
         if weight <= 0:

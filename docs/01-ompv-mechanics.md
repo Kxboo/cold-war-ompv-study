@@ -62,6 +62,8 @@ The accumulator `C_m` and normalized mean are different quantities. The teaching
 
 The example accepts all IDs `0…255`. It uses an explicit count instead of reserving byte 255 as an invalid layer. Some earlier research helpers use 255 as an internal sentinel; that convention must not silently reduce a format's representable range.
 
+At exact sample boundaries, the teaching model drops zero-weight materials before choosing its base, which also keeps its normalized colour control defined. The inspected captured variant retains the gathered ID list and can use its lowest ID as the opaque base even when that ID has zero weight. Its internal exhausted-entry sentinel is 256. See [the controlled selection experiment](08-shader-experiments.md#isolating-selection-and-duplicate-combination). The browser's observed-reveal mode changes the scalar reveal equation while retaining the teaching model's selection and colour conventions.
+
 ## Reveal ordering and coverage
 
 The public presentations prescribe numeric layer ordering. The minimum participating ID supplies the primary layer, with full base coverage. Subsequent layers are blended in order. A list of recovered material sort keys is not sufficient reason to replace this rule. [GDC slides 109, 123–125](05-sources.md#primary-presentations); [SIGGRAPH notes, PDF pages 9–10](05-sources.md#primary-presentations).
@@ -74,6 +76,8 @@ result = (1-alpha) * result + alpha * layer_colour
 ```
 
 It is based on the painted/rules-alpha relation on GDC slide 49 and the doubled-alpha discussion on slide 109. It is not a complete implementation of Cold War's captured composition shader. That shader includes additional material parameters and branches. Bilinear coverage, effective reveal alpha and sequential compositing weights must be reported separately.
+
+The [observed reveal equation](08-shader-experiments.md#the-observed-reveal-equation) describes the separately tested width/exponent shaping, endpoint correction and zero-width behavior for the supported binary. Keeping the two equations visibly separate makes it possible to experiment without mistaking an illustration for an engine implementation.
 
 ## Distortion, material UVs and GPU execution
 

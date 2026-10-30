@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f3ec"><meta name="description" content="Validation and reproduction — the Cold War OMPV research study, with source references and explicit evidence boundaries."><title>Validation and reproduction — Cold War OMPV</title><link rel="icon" href="../assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"></head>
+<body><a class="skip-link" href="#article">Skip to content</a>
+<header class="site-header"><a class="wordmark" href="../" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a><nav aria-label="Main navigation"><a href="../#explorer">Explorer</a><a href="../#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+<div class="reader-header wrap"><a href="../#study">← All field notes</a><p class="eyebrow">CHAPTER 04 / COLD WAR OMPV</p></div>
+<main class="reader-layout wrap"><aside class="reader-sidebar" aria-label="Study navigation"><p class="eyebrow">THE COMPLETE STUDY</p><nav aria-label="Chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html" aria-current="page">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="On this page"><a href="#saved-shader-comparison">Saved shader comparison</a><a href="#three-evidence-levels">Three evidence levels</a><a href="#acceptance-criteria-for-further-work">Acceptance criteria for further work</a></nav></div><details class="reader-mobile-nav"><summary>Chapters &amp; this page</summary><nav aria-label="Mobile chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html" aria-current="page">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><nav aria-label="Mobile page contents"><a href="#saved-shader-comparison">Saved shader comparison</a><a href="#three-evidence-levels">Three evidence levels</a><a href="#acceptance-criteria-for-further-work">Acceptance criteria for further work</a></nav></div></details></aside>
+<article id="article" class="article-body"><h1 id="validation-and-reproduction">Validation and reproduction</h1>
+<h2 id="saved-shader-comparison">Saved shader comparison</h2>
+<p><a href="../data/shader-validation.json">shader-validation.json</a> is the saved <code>val_native</code> report from the zm_silver experiment. It contains <strong>1,048,576 texels</strong>, all valid in both outputs, and <strong>1.0 validity agreement</strong>. The table preserves its measurements, rounded to six decimals.</p>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Channel</th>
+<th scope="col" style="text-align:right">Mean absolute error × 255</th>
+<th scope="col" style="text-align:right">99th percentile × 255</th>
+<th scope="col" style="text-align:right">Maximum × 255</th>
+</tr></thead><tbody>
+<tr>
+<td>Colour, encoded RGB</td>
+<td style="text-align:right">0.113354</td>
+<td style="text-align:right">1.293148</td>
+<td style="text-align:right">112.652756</td>
+</tr>
+<tr>
+<td>Normal, encoded XY</td>
+<td style="text-align:right">0.017280</td>
+<td style="text-align:right">0.293564</td>
+<td style="text-align:right">25.848127</td>
+</tr>
+<tr>
+<td>Roughness</td>
+<td style="text-align:right">0.141972</td>
+<td style="text-align:right">1.245334</td>
+<td style="text-align:right">77.652832</td>
+</tr>
+<tr>
+<td>Ambient occlusion</td>
+<td style="text-align:right">0.144955</td>
+<td style="text-align:right">0.785144</td>
+<td style="text-align:right">17.455154</td>
+</tr>
+</tbody></table></div>
+<p>These values are differences in floating output values scaled by 255, before rounding to an 8-bit image. Percentiles pool selected scalar components over mutually valid pixels. The normal row does not measure a three-dimensional vector or an angle. With every texel valid, this fixture does not exercise hole boundaries.</p>
+<p>The mean is low while some maxima are large. The report does not explain those outliers. It also does not identify a complete driver/compiler/environment manifest or prove which installation-format round trip produced every input. The handoff notes quote different numbers for some channels; this study uses the actual saved JSON rather than mixing those runs.</p>
+<h2 id="three-evidence-levels">Three evidence levels</h2>
+<p>The repository distinguishes new synthetic checks, historical instrumented-shader experiments, and comparison of resource-backed shader outputs. A passing check in one level does not substitute for another.</p>
+<h3 id="synthetic-checks-included-here">Synthetic checks included here</h3>
+<p>Run these from the repository root with Python 3.10+:</p>
+<pre class="code-block"><code>python examples/ompv_reference.py
+python -m unittest discover -s tests -v
+python tools/make_diagram.py</code></pre>
+<p>Tests exercise coordinate alignment, duplicate accumulation, all 256 IDs, layer order, colour association, border handling and base/reveal behaviour. They validate the educational model&#x27;s invariants. They are not evidence of Cold War engine equivalence.</p>
+<p>With Node.js installed, the Python suite also compares the browser teaching model against the Python reference across 352 cases. Run the JavaScript checks and rebuild the reader as well:</p>
+<pre class="code-block"><code>node --test tests/ompv-model.test.mjs
+python tools/build_site.py</code></pre>
+<p>The JavaScript checks include final compositing weights, ID 255, colour association and the observed reveal equation&#x27;s zero-width/endpoint cases. The site builder checks internal files and heading links, while reader tests check displayed metrics against the saved report. These browser calculations use JavaScript numbers; agreement with Python is not a float32 GPU execution test. GitHub Actions runs these checks with Python 3.12 and Node.js 22 before publishing.</p>
+<p>The HLSL companion has entry point <code>cs_main</code> and shader model <code>cs_5_0</code>. Its resource contract is documented in the file. With an installed Windows SDK:</p>
+<pre class="code-block"><code>fxc /T cs_5_0 /E cs_main /Fo out/ompv_reference.cso shaders/ompv_reference.hlsl</code></pre>
+<p>Create <code>out/</code> first. Compilation checks syntax and shader-model compatibility; it does not execute the shader or prove CPU/GPU parity.</p>
+<h3 id="historical-controlled-shader-measurements">Historical controlled-shader measurements</h3>
+<p><a href="../data/shader-experiments.json">shader-experiments.json</a> selects existing reports for selection, reveal, ordered colour, distortion and normal inversion. <a href="08-shader-experiments.html">The experiments chapter</a> describes the equations, provenance and limits. These checks used the supported binary with controlled or instrumented fixtures; they are separate from both the new browser/Python teaching examples and the later atlas-backed port report above. The original binaries and resource payloads remain external.</p>
+<h3 id="compare-user-supplied-captured-outputs">Compare user-supplied captured outputs</h3>
+<p>The numerical comparator accepts two folders, each containing <code>vt0.f32</code>, <code>vt1.f32</code> and <code>vt2.f32</code>. Each file must be little-endian float32, tightly packed as height × width × four channels, in the same texel order. These inputs are external; no captured output files are bundled.</p>
+<pre class="code-block"><code>python -m pip install -r requirements-analysis.txt
+python tools/compare_outputs.py REFERENCE_DIR CANDIDATE_DIR --width 1024 --height 1024 --output out/comparison.json</code></pre>
+<p>The script checks sizes and finite values, reports validity counts and agreement, computes the same channel metrics as the historical comparator, and records SHA-256 hashes using portable input labels. It rejects zero mutually valid pixels instead of producing misleading empty metrics. It does not infer whether two folders represent the same map, tile or dispatch; the operator must establish that alignment.</p>
+<p>To create a new shader comparison, follow <a href="06-capture-workflow.html">the capture workflow</a> to retain the supported binary and required resource state, verify the shader hash, and build/run <a href="07-replay-contract.html#commands-and-what-they-actually-produce">Greyhound&#x27;s reference bake</a>. Record which dispatch constants and sampler settings were reconstructed. Run a candidate implementation over the same world coordinates and footprint, then compare the raw outputs. The complete local DXIL translator/BO3 package and game resources are not distributed here, so this repository alone cannot reproduce that original rendering run.</p>
+<p>Record at least: binary hash, disassembler and compiler versions/options, driver and adapter, dimensions, world origin/step, all resource hashes and formats, sampler settings, mip inventory, output-channel convention, validity policy, and candidate source revision. Archive the raw outputs privately so later metric changes remain auditable.</p>
+<h2 id="acceptance-criteria-for-further-work">Acceptance criteria for further work</h2>
+<p>Choose thresholds for each intended use before tuning. Report boundary and interior errors separately, include maxima and outlier locations, and use held-out maps or tiles. Add decoded normal angular error when evaluating normal quality. Keep weather/decal exclusions and footprint differences attached to the result. A lower mean on one tile cannot establish general shader equivalence.</p><a class="source-link" href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/docs/04-validation.md">Read this chapter’s Markdown source ↗</a><nav class="chapter-pager" aria-label="Adjacent chapters"><a href="03-shader-port.html"><span>← PREVIOUS CHAPTER</span>The composition shader port experiment</a><a href="05-sources.html"><span>NEXT CHAPTER →</span>Sources and provenance</a></nav></article></main>
+<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>

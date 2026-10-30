@@ -1,0 +1,465 @@
+{
+  "schema": "ompv-controlled-shader-experiments-v1",
+  "shader_sha256": "6159daeb7882198314ffe9e8b6fab53c1b314258b43a106c1694c5a53d77d9ff",
+  "scope": "Extracted historical saved reports; no fresh WARP execution. Controlled shader fixtures are distinct from the later atlas-backed port comparison.",
+  "selection": {
+    "source": "composition-validation.json",
+    "source_pointers": [
+      "/shader_selection",
+      "/unmodified_reassembly_max_abs_error",
+      "/layer_affine_byte_exact",
+      "/evidence_scope"
+    ],
+    "case_count": 10,
+    "maximum_errors": {
+      "id_error": 0.0,
+      "weight_error": 0.0,
+      "coverage_error": 0.0
+    },
+    "pixels_per_case": 4096,
+    "pixel_count_basis": "validate_composition.py constructs a 64 by 64 grid",
+    "reassembly_max_abs_error": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "byte_exact_affine_layer_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "scope": "Synthetic bindings; instrumented intermediates. Not a captured dispatch replay."
+  },
+  "reveal": {
+    "source": "composition-validation.json",
+    "source_pointer": "/reveal",
+    "case_count": 25,
+    "maximum_errors": {
+      "inputs_error": 0.0,
+      "shape_error": 1.1920928955078125e-07,
+      "uv_and_endpoint_error": 1.1920928955078125e-07
+    },
+    "width_field_byte": 82,
+    "exponent_field_byte": 83,
+    "mask_descriptor_word_byte": 108,
+    "mask_descriptor_bits": [
+      14,
+      27
+    ],
+    "parameter_basis": "reference.py and validate_composition.py",
+    "zero_denominator_policy": "raw = mask > low ? 1 : 0; then max with endpoint; zero coverage is skipped before the reveal branch"
+  },
+  "final_blend": {
+    "source": "final-blend-validation.json",
+    "source_pointers": [
+      "/cases",
+      "/max_error",
+      "/scope"
+    ],
+    "case_count": 16,
+    "cases": [
+      {
+        "case": 0,
+        "pixels": 4096,
+        "max_color_error": 0.0,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 1,
+        "pixels": 4096,
+        "max_color_error": 5.960464477539063e-08,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 2,
+        "pixels": 4096,
+        "max_color_error": 3.5762786865234375e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 3,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 4,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 5,
+        "pixels": 4096,
+        "max_color_error": 2.980232238769531e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 6,
+        "pixels": 4096,
+        "max_color_error": 2.384185791015625e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 7,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 8,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 9,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 10,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 11,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 12,
+        "pixels": 4096,
+        "max_color_error": 3.5762786865234375e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 13,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 14,
+        "pixels": 4096,
+        "max_color_error": 1.7881393432617188e-07,
+        "alpha_error": 0.0
+      },
+      {
+        "case": 15,
+        "pixels": 4096,
+        "max_color_error": 1.1920928955078125e-07,
+        "alpha_error": 0.0
+      }
+    ],
+    "max_error": 3.5762786865234375e-07,
+    "scope": "Layer ID sorting/merge, doubled coverage, reveal, opaque base, sequential linear color blend and final sRGB conversion. Controlled flag-0x5 inputs."
+  },
+  "distortion": {
+    "source": "distortion-validation.json",
+    "source_pointers": [
+      "/controlled",
+      "/captured_payload",
+      "/captured_outputs",
+      "/covered_fraction",
+      "/scope"
+    ],
+    "controlled": [
+      {
+        "frequency": 0,
+        "amplitude": 0,
+        "sample_error": 0.0,
+        "displacement_error": 0.0,
+        "id_error": 0.0,
+        "weight_error": 0.0
+      },
+      {
+        "frequency": 0.03125,
+        "amplitude": 0,
+        "sample_error": 0.0,
+        "displacement_error": 0.0,
+        "id_error": 0.0,
+        "weight_error": 0.0
+      },
+      {
+        "frequency": 0.03125,
+        "amplitude": 0.0078125,
+        "sample_error": 0.0,
+        "displacement_error": 0.0,
+        "id_error": 0.0,
+        "weight_error": 0.0
+      },
+      {
+        "frequency": 0.125,
+        "amplitude": 0.0625,
+        "sample_error": 0.0,
+        "displacement_error": 0.0,
+        "id_error": 0.0,
+        "weight_error": 0.0
+      },
+      {
+        "frequency": 0.5,
+        "amplitude": 0.125,
+        "sample_error": 0.0,
+        "displacement_error": 0.0,
+        "id_error": 0.0,
+        "weight_error": 0.0
+      }
+    ],
+    "payload": {
+      "global_rva": "0x1a188058",
+      "hash": "0x17ed1cae86321ba8",
+      "format": 71,
+      "width": 256,
+      "height": 256,
+      "levels": 1,
+      "loaded_size": 32768,
+      "payload_sha256": "ce934bb5d4ca1bf22985a8a7bcd16f4bc9a0a56577ee16726a61397ea28e7e92",
+      "payload_status": "stable read"
+    },
+    "captured_outputs": [
+      {
+        "output": 0,
+        "finite": true,
+        "max_abs_change": 0.9553309082984924,
+        "mean_abs_change": 0.044440560042858124,
+        "changed_pixel_fraction": 0.47725099203517085
+      },
+      {
+        "output": 1,
+        "finite": true,
+        "max_abs_change": 0.9990000128746033,
+        "mean_abs_change": 0.02409788966178894,
+        "changed_pixel_fraction": 0.478189500128465
+      },
+      {
+        "output": 2,
+        "finite": true,
+        "max_abs_change": 0.9529411792755127,
+        "mean_abs_change": 0.006127861328423023,
+        "changed_pixel_fraction": 0.8154041413305166
+      }
+    ],
+    "covered_fraction": 0.8017501831054688,
+    "changed_pixel_definition": "Any float4 component differs by more than 1e-6 among mutually covered pixels; not an RGB-only statistic",
+    "scope": "Controlled math validated; real-resource bake with reconstructed constants is not a same-time game dispatch replay."
+  },
+  "binding": {
+    "shader_sha256": "6159daeb7882198314ffe9e8b6fab53c1b314258b43a106c1694c5a53d77d9ff",
+    "argument_stride": 12,
+    "count": 13,
+    "arguments": [
+      {
+        "type": "0x307",
+        "location": 2528,
+        "size": 16,
+        "buffer": 2,
+        "value": 16777252
+      },
+      {
+        "type": "0x307",
+        "location": 2544,
+        "size": 16,
+        "buffer": 2,
+        "value": 16777253
+      },
+      {
+        "type": "0x307",
+        "location": 0,
+        "size": 16,
+        "buffer": 4,
+        "value": 16777437
+      },
+      {
+        "type": "0x307",
+        "location": 32,
+        "size": 16,
+        "buffer": 4,
+        "value": 16777439
+      },
+      {
+        "type": "0x307",
+        "location": 48,
+        "size": 16,
+        "buffer": 4,
+        "value": 16777440
+      },
+      {
+        "type": "0x307",
+        "location": 64,
+        "size": 16,
+        "buffer": 4,
+        "value": 16777441
+      },
+      {
+        "type": "0x407",
+        "location": 0,
+        "size": 1,
+        "buffer": 0,
+        "value": 120
+      },
+      {
+        "type": "0x447",
+        "location": 72,
+        "size": 1,
+        "buffer": 0,
+        "value": 151
+      },
+      {
+        "type": "0x447",
+        "location": 73,
+        "size": 1,
+        "buffer": 0,
+        "value": 152
+      },
+      {
+        "type": "0x547",
+        "location": 56,
+        "size": 1,
+        "buffer": 0,
+        "value": 47
+      },
+      {
+        "type": "0x547",
+        "location": 58,
+        "size": 1,
+        "buffer": 0,
+        "value": 48
+      },
+      {
+        "type": "0x547",
+        "location": 70,
+        "size": 1,
+        "buffer": 0,
+        "value": 105
+      },
+      {
+        "type": "0x547",
+        "location": 71,
+        "size": 1,
+        "buffer": 0,
+        "value": 106
+      }
+    ],
+    "distortion_argument_index": 6,
+    "code_image_index": 120,
+    "global_rva": "0x1a188058",
+    "cpu_setter_rva": "0xb8e2592",
+    "shader_resource": "terrainDistort t0",
+    "sampler_key": "0x12",
+    "sampler_descriptor_decoded": false
+  },
+  "normal_decode": {
+    "source": "normal-output-validation.json",
+    "normal_decode_max_error": 3.5762786865234375e-07,
+    "packed_matches_original_error": 0.0,
+    "pixels": 840696,
+    "scope": "Sphere-map inversion verified against final normalized detail normal in instrumented original shader; projection onto BO3 geometry remains an adaptation"
+  },
+  "source_files": [
+    {
+      "label": "composition-validation.json",
+      "bytes": 7995,
+      "sha256": "302c3af9be2b80679de553b15acc5198dbcc48edb83eb2e17e7f01136f4641c8"
+    },
+    {
+      "label": "final-blend-validation.json",
+      "bytes": 2473,
+      "sha256": "9576f7ba6f55cfa8541c5f8ba455ec542fb8d3e8b50b88dc7432d861de939ac9"
+    },
+    {
+      "label": "distortion-validation.json",
+      "bytes": 2595,
+      "sha256": "a6e41e52faa36e51dbe2b201d79aec20fd2cb15f14dcfbf78c3aeeb0bccd05ff"
+    },
+    {
+      "label": "normal-output-validation.json",
+      "bytes": 287,
+      "sha256": "55452dbd9b646b8db5abff05f65bd4294c89ab7b4f3beaf4428a8a8d0b57cb41"
+    },
+    {
+      "label": "distortion-binding-probe/binding-evidence.json",
+      "bytes": 1989,
+      "sha256": "42de607b9925361eaa932593d2c4e86d1569fdc759b4076519aaba887ba0e097"
+    },
+    {
+      "label": "reference.py",
+      "bytes": 3625,
+      "sha256": "d5c04034684a0e51b6ba6aba2c438d53e2134c8fd15975be9618a7bea1a04a4d"
+    },
+    {
+      "label": "validate_composition.py",
+      "bytes": 6310,
+      "sha256": "a93a41884019b592b3b2fbae2623cb8914068b02b9072deeda67637183204835"
+    },
+    {
+      "label": "validate_final_blend.py",
+      "bytes": 3888,
+      "sha256": "be7f8c7019a6145f4a77757d5dea4e0fd18136549ee4e309a9bea8b699e7f7b3"
+    },
+    {
+      "label": "validate_distortion.py",
+      "bytes": 5383,
+      "sha256": "830b83b9d216589dbaf9cd6ff10149c5b1ab1d20cfeffcff9cf237e5e9a7c1bb"
+    },
+    {
+      "label": "trace_composition_globals.py",
+      "bytes": 5433,
+      "sha256": "e820180bdd7884bbc08eddc030828741f192cfb59ebd0d7694bfee0b3c504218"
+    },
+    {
+      "label": "README.md",
+      "bytes": 9313,
+      "sha256": "baf959fd72357b6a3c3d52a37c02724ee7eb0fb48595ee70da61667e661d0d51"
+    },
+    {
+      "label": "BLENDING_CHECKPOINT.md",
+      "bytes": 3727,
+      "sha256": "fe69a58e4b963eeb55b7bd2a2bef0b7533d541c40d57ddc83d4e0e9b3e5cccf9"
+    }
+  ]
+}

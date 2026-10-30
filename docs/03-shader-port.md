@@ -21,7 +21,7 @@ The translator aims to preserve arithmetic and control flow while adapting opera
 
 1. **Invocation position.** Compute dispatch derives world XY from thread ID, origin and step. The port supplies world XY and two neighbouring positions explicitly. A pixel shader uses its screen-space world-position derivatives; the validation harness supplies the original bake step.
 2. **Resource access.** Bindless descriptors become binding-interface calls. Layer textures occupy atlases; integer controls are packed into lossless byte images and reconstructed through exact loads. Atlas coordinates retain each source image's native dimensions and an eight-texel wrap border.
-3. **Group-shared operations.** The quad derivative exchange is rebuilt using neighbouring positions. The port replaces an 8 × 8 height reduction with a per-texel value. That reduction feeds `vt2.w`, which the reported comparison does not evaluate. The port therefore does not claim equivalence of all output channels.
+3. **Group-shared operations.** The quad derivative exchange is rebuilt using neighbouring positions. The port replaces the shared `gHeightCacheDisplace` reduction with a per-texel value. Following that replacement through the generated assignments places its result in **`vt2.y`**. The translator's introductory comment incorrectly says `vt2.w`; the implementation trace takes precedence. The reported comparison evaluates only `vt2.x`, so it does not validate this reduction or establish equivalence of all output channels. See the [channel audit](08-shader-experiments.md#normal-decoding-and-the-reduction-channel).
 
 The shader gate needs care: the inspected translator checks an adjacent binary if present, but permits translation of a listing when that binary is absent. A constant hash printed in a generated header is not proof of input identity. Reproduction must explicitly hash the captured binary and establish that the disassembly came from it.
 
@@ -46,7 +46,8 @@ The harness runs at a footprint ratio of one. Agreement there does not validate 
 | `vt1.xy` | Encoded detail-normal components | Error here is not a decoded normal-vector angle |
 | `vt1.z` | Roughness | Bake's gloss image uses `1 - roughness` |
 | `vt2.x` | Ambient occlusion | Scalar comparison |
-| `vt2.w` | Includes group reduction result | Outside the reported equivalence scope |
+| `vt2.y` | Receives the substituted shared-reduction result | Outside the reported equivalence scope |
+| `vt2.zw` | Other outputs | Outside the reported equivalence scope |
 
 The bake decodes the two normal components using:
 

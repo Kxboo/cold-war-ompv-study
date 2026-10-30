@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f3ec"><meta name="description" content="The offline replay contract — the Cold War OMPV research study, with source references and explicit evidence boundaries."><title>The offline replay contract — Cold War OMPV</title><link rel="icon" href="../assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"></head>
+<body><a class="skip-link" href="#article">Skip to content</a>
+<header class="site-header"><a class="wordmark" href="../" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a><nav aria-label="Main navigation"><a href="../#explorer">Explorer</a><a href="../#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+<div class="reader-header wrap"><a href="../#study">← All field notes</a><p class="eyebrow">CHAPTER 07 / COLD WAR OMPV</p></div>
+<main class="reader-layout wrap"><aside class="reader-sidebar" aria-label="Study navigation"><p class="eyebrow">THE COMPLETE STUDY</p><nav aria-label="Chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html" aria-current="page">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="On this page"><a href="#file-roles-and-stages">File roles and stages</a><a href="#binding-layout">Binding layout</a><a href="#reconstructed-constants-and-the-border">Reconstructed constants and the border</a><a href="#material-output-is-not-final-lighting">Material output is not final lighting</a><a href="#commands-and-what-they-actually-produce">Commands and what they actually produce</a><a href="#a-useful-fidelity-boundary">A useful fidelity boundary</a></nav></div><details class="reader-mobile-nav"><summary>Chapters &amp; this page</summary><nav aria-label="Mobile chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html" aria-current="page">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><nav aria-label="Mobile page contents"><a href="#file-roles-and-stages">File roles and stages</a><a href="#binding-layout">Binding layout</a><a href="#reconstructed-constants-and-the-border">Reconstructed constants and the border</a><a href="#material-output-is-not-final-lighting">Material output is not final lighting</a><a href="#commands-and-what-they-actually-produce">Commands and what they actually produce</a><a href="#a-useful-fidelity-boundary">A useful fidelity boundary</a></nav></div></details></aside>
+<article id="article" class="article-body"><h1 id="the-offline-replay-contract">The offline replay contract</h1>
+<p>The reference bake separates capture from execution. Once its input files exist, <code>bake.py</code> and <code>run_composition.exe</code> do not need to read the game. The runner creates its own D3D12 WARP device, reconstructs bindings and executes the captured shader payload. This chapter identifies exactly what is captured, synthesized and measured.</p>
+<h2 id="file-roles-and-stages">File roles and stages</h2>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Artifact</th>
+<th scope="col">Producer</th>
+<th scope="col">Consumer</th>
+<th scope="col">Meaning</th>
+</tr></thead><tbody>
+<tr>
+<td><code>inputs.json</code></td>
+<td><code>CWTerrainBake::Capture</code></td>
+<td><code>bake.py</code></td>
+<td>Surface mappings, native images, tile/layer files, shader and distortion</td>
+</tr>
+<tr>
+<td><code>generic.bin</code></td>
+<td><code>bake.py</code></td>
+<td>Runner</td>
+<td>Reconstructed per-tile constants</td>
+</tr>
+<tr>
+<td><code>scene.bin</code></td>
+<td><code>bake.py</code></td>
+<td>Runner</td>
+<td>Reconstructed scene constants</td>
+</tr>
+<tr>
+<td><code>dispatch.json</code></td>
+<td><code>bake.py</code></td>
+<td>Runner</td>
+<td>One mapping&#x27;s fixed bindings and output extent</td>
+</tr>
+<tr>
+<td><code>vt0.f32</code>, <code>vt1.f32</code>, <code>vt2.f32</code></td>
+<td>Runner</td>
+<td>Output conversion / comparator</td>
+<td>Tightly packed float32 RGBA UAV results</td>
+</tr>
+<tr>
+<td>PNG maps and material info</td>
+<td>Bake / output converter</td>
+<td>Model importer</td>
+<td>Conventional colour, normal, gloss and AO assets</td>
+</tr>
+<tr>
+<td><code>terrain_export.json</code>, <code>inventory.json</code></td>
+<td>Bake / finalizer</td>
+<td>Reviewer</td>
+<td>Output metadata, limitations and hashes</td>
+</tr>
+</tbody></table></div>
+<p>The ordinary GUI uses the same path: <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L2638-L2648">capture and bake invocation</a>, then model writers and finalization. Successful finalization removes scratch inputs as explained in the <a href="06-capture-workflow.html#practical-reproduction-and-retention">capture chapter</a>.</p>
+<h2 id="binding-layout">Binding layout</h2>
+<p>The runner&#x27;s root signature maps the saved resources as follows. Register spaces are part of the identity: <code>t256 space1</code> and <code>t256 space4</code> are different tables. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L148-L178">Root signature and samplers</a>.</p>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Binding</th>
+<th scope="col">Resource</th>
+<th scope="col">Extent or stride</th>
+</tr></thead><tbody>
+<tr>
+<td><code>t56 space6</code></td>
+<td>GPU tile structured buffer</td>
+<td>316 bytes per record</td>
+</tr>
+<tr>
+<td><code>t58 space6</code></td>
+<td>GPU layer structured buffer</td>
+<td>128 bytes per record</td>
+</tr>
+<tr>
+<td><code>t70 space6</code></td>
+<td>Weather structured buffer</td>
+<td>96 bytes per record; default zeros</td>
+</tr>
+<tr>
+<td><code>t71 space6</code></td>
+<td>Weather texture records</td>
+<td>32 bytes per record; default zeros</td>
+</tr>
+<tr>
+<td><code>t72</code>, <code>t73 space6</code></td>
+<td>Weather blend and index images</td>
+<td>Default black placeholders</td>
+</tr>
+<tr>
+<td><code>t256 space1</code></td>
+<td>Float-sampled texture array</td>
+<td>16,384 descriptor slots</td>
+</tr>
+<tr>
+<td><code>t256 space4</code></td>
+<td>Integer-sampled texture array</td>
+<td>16,384 descriptor slots</td>
+</tr>
+<tr>
+<td><code>t0 space0</code></td>
+<td>Distortion image</td>
+<td>Recovered resource in the production bake</td>
+</tr>
+<tr>
+<td><code>u0</code>, <code>u1</code>, <code>u2 space0</code></td>
+<td>Output images</td>
+<td>RGBA32_FLOAT</td>
+</tr>
+<tr>
+<td><code>s256 space1</code></td>
+<td>Dynamic sampler array</td>
+<td>256 linear-wrap states</td>
+</tr>
+<tr>
+<td><code>b4 space0</code></td>
+<td>Generic constants</td>
+<td>At least 256 bytes before CBV alignment</td>
+</tr>
+<tr>
+<td><code>b2 space0</code></td>
+<td>Scene constants</td>
+<td>At least 2656 bytes before CBV alignment</td>
+</tr>
+</tbody></table></div>
+<p>Structured-buffer setup is in <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L89-L109">runner lines 89–109</a>. Native texture formats and dimensions control upload sizing; D3D12 row pitches are handled explicitly rather than assuming the upload footprint is tightly packed. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L59-L85">Texture creation and upload</a>.</p>
+<p>Static samplers are linear clamp with mip zero forced at <code>s0 space0</code>, linear wrap at <code>s2 space0</code>, and linear clamp at <code>s12 space5</code>. The dynamic samplers are provisional reconstructed states. Matching texture bytes cannot compensate for different filtering, addressing, anisotropy or LOD bias.</p>
+<p>The runner has a neutral one-pixel distortion fallback for controlled fixtures, but the production bake refuses a missing recovered distortion entry. A successful standalone runner invocation with neutral input therefore satisfies a weaker contract than the production bake. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L110-L135">Fallback</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L97-L102">production gate</a>.</p>
+<h2 id="reconstructed-constants-and-the-border">Reconstructed constants and the border</h2>
+<p>The bake creates a 2656-byte zero-filled scene buffer and writes <code>(1,1,1,1)</code> at byte <code>159*16</code>. This is a constructed scene state, not a native captured cbuffer. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L111-L114">Scene setup</a>.</p>
+<p>For a logical tile coordinate <code>(x,y)</code>, cell size <code>c</code> and output resolution <code>R</code>:</p>
+<pre class="code-block"><code>logical_world_width = 32*c
+interior_texels     = R-16
+step               = 32*c/(R-16)
+start              = mapping_origin + (x,y)*32*c + (0.5-8)*step
+world(thread)      = start + thread.xy*step</code></pre>
+<p>The eight-texel border on each side explains the subtraction of 16 from resolution and the <code>0.5-8</code> centre offset. For <code>c=16</code> and <code>R=1024</code>, the logical tile spans 512 world units and the sampling step is approximately <code>0.507936508</code> world units. This is a derived example, not a captured constant. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L163-L177">Per-tile constants</a>.</p>
+<p>The generic buffer also receives camera XY at byte 32, a float one at byte 60, and the packed values <code>&lt;uint32 0, uint32 1, float32 1&gt;</code> at byte 64. All remaining bytes begin as zero. These choices are part of the reference configuration and must be preserved when comparing a port.</p>
+<p>The production bake accepts square resolutions 256, 512 or 1024; 1024 is the default. The lower-level runner accepts positive width and height divisible by eight, each no larger than 4096. It dispatches <code>(width/8,height/8,1)</code>. Those are different limits at different entry points. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L278-L285">Bake CLI</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L30-L44">runner input gate</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L190-L213">dispatch/readback</a>.</p>
+<h2 id="material-output-is-not-final-lighting">Material output is not final lighting</h2>
+<p>The selected raw outputs are colour (<code>vt0.rgb</code>), validity (<code>vt0.a &gt; 0.5</code>), encoded detail normal (<code>vt1.xy</code>), roughness (<code>vt1.z</code>) and ambient occlusion (<code>vt2.x</code>). The <a href="03-shader-port.html#output-interpretation">port chapter</a> gives the normal decode and target adaptation.</p>
+<p><code>output_maps.py</code> performs a different operation from the raw-float comparator. It decodes and flips normal green for the export frame, converts roughness to gloss, fills invalid shading texels from their nearest valid neighbour, and clamps/rounds to bytes. An all-invalid input receives conventional defaults in this converter; the bake separately rejects a solid tile with no valid shading. Consequently, comparing exported PNGs cannot reproduce the raw report&#x27;s metric exactly. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/output_maps.py#L11-L33">Output conversion</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L228-L232">no-coverage rejection</a>.</p>
+<p>Geometry uses a conservative four-corner solidity rule and a fixed 33 × 33 grid per tile. The packed hole mask expands a uint32 word into an 8 × 4 bit pattern. Height comes from an R16 atlas and the tile&#x27;s transforms. This is a useful export representation but does not reproduce the game&#x27;s adaptive LOD/morph draw topology. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L48-L94">Mask and geometry decode</a>.</p>
+<h2 id="commands-and-what-they-actually-produce">Commands and what they actually produce</h2>
+<p>From a correctly configured pinned Greyhound checkout, build the native runner with its <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/build.ps1#L1-L8">build helper</a>:</p>
+<pre class="code-block"><code>powershell -File tools/cold_war/terrain/build.ps1</code></pre>
+<p>Given an already retained <strong>complete</strong> focused input set:</p>
+<pre class="code-block"><code>python tools/cold_war/terrain/bake.py &#x27;&lt;retained-inputs&gt;/inputs.json&#x27; --output &#x27;&lt;new-output&gt;&#x27; --area nearby --resolution 1024</code></pre>
+<p>This Python command writes bake intermediates and material images, leaving <code>terrain_export.json</code> at <code>awaiting_model_export</code>. The C++ caller performs the actual model export and calls the finalizer. Running the Python command alone is not a complete final model package. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L268-L275">Bake status and model manifest</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L2649-L2697">model export/finalizer</a>.</p>
+<p>For one existing dispatch fixture, use the lower-level runner directly:</p>
+<pre class="code-block"><code>tools/cold_war/terrain/run_composition.exe &#x27;&lt;fixture&gt;/dispatch.json&#x27;</code></pre>
+<p>The optional <code>--serve</code> mode keeps the device, shader and textures alive. It announces <code>ready</code>, accepts tab-separated generic-file/output-directory jobs, and responds with <code>ok</code>; the production baker uses it to avoid reloading resources per tile. It is an execution protocol, not a capture API. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp#L215-L237">Server protocol</a>.</p>
+<p>Keep archived source evidence immutable. Copy inputs to a separate experiment directory before running the baker: it writes scene/generic/dispatch files alongside its input manifest. Preserve the copied paths or deliberately rebase them, because the focused capture writes path strings tied to its capture location. Verify shader and resource hashes before comparing results.</p>
+<h2 id="a-useful-fidelity-boundary">A useful fidelity boundary</h2>
+<p>This pipeline establishes the supported program&#x27;s output for a specified collection of inputs. It combines captured shader/native resource bytes with reconstructed dispatch state and conventional export geometry. It excludes full native sampler recovery, synchronized weather state, independent volume decals, collision and final lighting. The study&#x27;s port comparison is therefore an experiment against this reference, while the <a href="08-shader-experiments.html">controlled equation experiments</a> isolate particular operations within the supported shader.</p><a class="source-link" href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/docs/07-replay-contract.md">Read this chapter’s Markdown source ↗</a><nav class="chapter-pager" aria-label="Adjacent chapters"><a href="06-capture-workflow.html"><span>← PREVIOUS CHAPTER</span>How Greyhound captures the Cold War composition inputs</a><a href="08-shader-experiments.html"><span>NEXT CHAPTER →</span>From captured shader to isolated equations</a></nav></article></main>
+<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>

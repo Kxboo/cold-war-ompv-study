@@ -26,7 +26,7 @@ A separate scan did not observe `rColorRamp` across 22, 38, 35 and 4 slot-refere
 
 The earlier shader trace covered 512 references representing 128 unique DXIL binaries. Its material-pool entries did not bind the defining map-wide TerrainGfx resources. These were source-layer techniques, so their existence could not prove the renderer-owned OMPV gather and composition sequence.
 
-The later work obtained the composition shader and used it through Greyhound's saved-input bake. The supported binary SHA-256 is:
+The later work obtained the composition shader and used it through Greyhound's saved-input bake. [How the capture works](06-capture-workflow.md) traces the asset-pool lookup, GPU records, native images, composition-owner global, readback checks and artifact lifecycle with exact links into the fork. [The offline replay contract](07-replay-contract.md) specifies bindings and reconstructed constants. The supported binary SHA-256 is:
 
 ```text
 6159daeb7882198314ffe9e8b6fab53c1b314258b43a106c1694c5a53d77d9ff

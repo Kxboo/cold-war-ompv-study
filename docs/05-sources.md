@@ -14,6 +14,16 @@ Public source is pinned to commit `2f3d1020ede04602759d5eb68405df519ec8221b`:
 - [D3D12 WARP runner](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/run_composition.cpp): descriptors, resources and execution.
 - [Output conversion](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/output_maps.py): normal decode, validity and conventional maps.
 - [Capture code](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp): OMPV correlations and captured resources.
+- [Focused composition capture](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h): supported PE layout, paired process reads, native image extraction, composition globals and saved input manifest.
+- [Finalizer](https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/finalize.py): validation and removal of successful-export scratch data.
+
+The [capture workflow](06-capture-workflow.md) and [replay contract](07-replay-contract.md) cite exact line ranges. [greyhound-source-map.json](../evidence/greyhound-source-map.json) records SHA-256 hashes of 11 exact Git blobs and 40 cited excerpts. Verify those references against a clone containing the pinned commit:
+
+```console
+python tools/verify_greyhound_sources.py --greyhound PATH_TO_GREYHOUND
+```
+
+The check reads `git show COMMIT:path`, not the current working-tree files. It proves that the inspected source and line ranges are unchanged; it does not independently validate their behavior or the prose's interpretation.
 
 Greyhound is GPL-3.0 licensed. Its code is referenced here; no Greyhound source has been relicensed into the educational example.
 
@@ -24,6 +34,8 @@ The study was prepared from the existing TerrainReconstructor research working t
 The inspected evidence includes the earlier fresh-capture correlation, colour holdout and material-shader trace; the OMPV Python helpers; the later DXIL translator and resource interface; the validation harness and comparator; the BO3 handoff notes; and the saved native-atlas comparison report. The public [capture-summary.json](../evidence/capture-summary.json) selects numerical facts from the earlier audit. The saved [shader-validation.json](../evidence/shader-validation.json) preserves the existing report with only CRLF line endings normalized to LF. Provenance records separate hashes for the source and published file.
 
 The source hashes make the inspected versions identifiable. They do not make unavailable captures publicly reproducible or authenticate an entire rendering run. This publication records existing research and validates the new educational examples; it does not claim a fresh game capture or fresh WARP replay.
+
+The expanded [shader-experiments.json](../evidence/shader-experiments.json) has a separate `source_files` manifest for 12 historical composition reports, validators, trace scripts and research notes. Its numerical fields retain their source report names and JSON pointers where applicable. The [experiments chapter](08-shader-experiments.md) distinguishes that local historical evidence from the public production code and from the examples included here. Absolute process addresses and machine-specific paths are omitted from the portable extract.
 
 ## Interpretation rules
 

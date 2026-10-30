@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f3ec"><meta name="description" content="How Greyhound captures the Cold War composition inputs — the Cold War OMPV research study, with source references and explicit evidence boundaries."><title>How Greyhound captures the Cold War composition inputs — Cold War OMPV</title><link rel="icon" href="../assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"></head>
+<body><a class="skip-link" href="#article">Skip to content</a>
+<header class="site-header"><a class="wordmark" href="../" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a><nav aria-label="Main navigation"><a href="../#explorer">Explorer</a><a href="../#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+<div class="reader-header wrap"><a href="../#study">← All field notes</a><p class="eyebrow">CHAPTER 06 / COLD WAR OMPV</p></div>
+<main class="reader-layout wrap"><aside class="reader-sidebar" aria-label="Study navigation"><p class="eyebrow">THE COMPLETE STUDY</p><nav aria-label="Chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html" aria-current="page">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="On this page"><a href="#two-export-paths-with-different-purposes">Two export paths with different purposes</a><a href="#1-find-the-loaded-terraingfx-asset">1. Find the loaded TerrainGfx asset</a><a href="#2-gate-the-supported-build-and-obtain-gpu-records">2. Gate the supported build and obtain GPU records</a><a href="#3-join-mapping-roots-gpu-tiles-and-image-ids">3. Join mapping roots, GPU tiles and image IDs</a><a href="#4-recover-native-image-bytes">4. Recover native image bytes</a><a href="#5-recover-distortion-and-the-composition-binary">5. Recover distortion and the composition binary</a><a href="#6-save-the-focused-replay-inputs">6. Save the focused replay inputs</a><a href="#what-the-stability-checks-prove">What the stability checks prove</a><a href="#practical-reproduction-and-retention">Practical reproduction and retention</a></nav></div><details class="reader-mobile-nav"><summary>Chapters &amp; this page</summary><nav aria-label="Mobile chapters"><a href="01-ompv-mechanics.html">01 &nbsp; OMPV mechanics</a><a href="02-cold-war-evidence.html">02 &nbsp; Cold War capture evidence</a><a href="03-shader-port.html">03 &nbsp; The composition shader port experiment</a><a href="04-validation.html">04 &nbsp; Validation and reproduction</a><a href="05-sources.html">05 &nbsp; Sources and provenance</a><a href="06-capture-workflow.html" aria-current="page">06 &nbsp; How Greyhound captures the Cold War composition inputs</a><a href="07-replay-contract.html">07 &nbsp; The offline replay contract</a><a href="08-shader-experiments.html">08 &nbsp; From captured shader to isolated equations</a></nav><div class="toc"><nav aria-label="Mobile page contents"><a href="#two-export-paths-with-different-purposes">Two export paths with different purposes</a><a href="#1-find-the-loaded-terraingfx-asset">1. Find the loaded TerrainGfx asset</a><a href="#2-gate-the-supported-build-and-obtain-gpu-records">2. Gate the supported build and obtain GPU records</a><a href="#3-join-mapping-roots-gpu-tiles-and-image-ids">3. Join mapping roots, GPU tiles and image IDs</a><a href="#4-recover-native-image-bytes">4. Recover native image bytes</a><a href="#5-recover-distortion-and-the-composition-binary">5. Recover distortion and the composition binary</a><a href="#6-save-the-focused-replay-inputs">6. Save the focused replay inputs</a><a href="#what-the-stability-checks-prove">What the stability checks prove</a><a href="#practical-reproduction-and-retention">Practical reproduction and retention</a></nav></div></details></aside>
+<article id="article" class="article-body"><h1 id="how-greyhound-captures-the-cold-war-composition-inputs">How Greyhound captures the Cold War composition inputs</h1>
+<p>This chapter follows the implementation in <a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b">Kxboo&#x27;s Greyhound fork at <code>2f3d102</code></a>. It connects the loaded game&#x27;s terrain asset to the saved shader, native texture blocks and GPU parameter records that drive the reference bake. The capture is a sequence of bounded process reads and package extraction; it is not a graphics debugger&#x27;s atomic frame capture.</p>
+<h2 id="two-export-paths-with-different-purposes">Two export paths with different purposes</h2>
+<p>Greyhound dispatches terrain assets according to <code>TerrainSourceOnly</code>. The ordinary path calls <code>ExportBakedTerrain</code>; the source-only path calls <code>ExportTerrainAsset</code>. The distinction matters because their evidence and retention policies differ. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L1340-L1343">Export dispatch</a>.</p>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Path</th>
+<th scope="col">Main purpose</th>
+<th scope="col">Relevant implementation</th>
+<th scope="col">What survives success</th>
+</tr></thead><tbody>
+<tr>
+<td>Ordinary terrain export</td>
+<td>Produce models and composed material maps</td>
+<td><code>CWTerrainBake::Capture</code> → <code>bake.py</code> → model export → <code>finalize.py</code></td>
+<td>Final packages, inventories and source hashes; owned <code>_work</code> is removed</td>
+</tr>
+<tr>
+<td>Dev Tools terrain source</td>
+<td>Archive terrain bytes and research dependencies</td>
+<td><code>ExportTerrainAsset</code> → <code>ExportTerrainResearch</code> and shared capture helpers</td>
+<td>Sealed <code>_source/capture/</code> evidence and <code>research_capture.report.json</code></td>
+</tr>
+</tbody></table></div>
+<p>The archival material-shader dump is not automatically a dump of the renderer-owned OMPV composition pass. Its shader capture helper explicitly records that limitation. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/TerrainResearchCapture.h#L351-L374">Technique-associated shader capture</a>.</p>
+<figure class="flow-diagram"><figcaption>Capture lifecycle: the ordinary bake and the source archive follow separate paths.</figcaption><ol class="flow-entry"><li><span class="flow-node">Loaded Cold War map</span></li><li><span class="flow-node">TerrainGfx asset discovery</span></li></ol><div class="flow-fork-label">Two export paths <span aria-hidden="true">↙ &nbsp; ↘</span></div><div class="flow-branches"><section class="flow-branch"><h4>Ordinary terrain export</h4><ol class="flow-sequence"><li><span class="flow-node">Focused shader and resource capture</span></li><li><span class="flow-node">Offline WARP bake and model export</span></li><li><span class="flow-node">Validate packages and remove owned scratch</span></li></ol></section><section class="flow-branch archive-branch"><h4>Dev Tools source capture</h4><ol class="flow-sequence"><li><span class="flow-node">Archive raw terrain and research dependencies</span></li><li><span class="flow-node">Seal source inventory</span></li></ol></section></div></figure><details class="flow-source"><summary>View diagram source</summary><pre><code>flowchart TD
+    A[Loaded Cold War map] --&gt; B[TerrainGfx asset discovery]
+    B --&gt; C[Ordinary terrain export]
+    B --&gt; D[Dev Tools source capture]
+    C --&gt; E[Focused shader and resource capture]
+    E --&gt; F[Offline WARP bake and model export]
+    F --&gt; G[Validate packages and remove owned scratch]
+    D --&gt; H[Archive raw terrain and research dependencies]
+    H --&gt; I[Seal source inventory]</code></pre></details>
+<h2 id="1-find-the-loaded-terraingfx-asset">1. Find the loaded TerrainGfx asset</h2>
+<p><code>GameBlackOpsCW::LoadOffsets</code> first tries known module-relative asset-pool locations. It validates the expected XModel hash and animation/model/image structure sizes before accepting the layout. A fallback scans code signatures for pool and string-table references and repeats those checks. This supports discovery of the asset-pool directory; it does not make the later composition-global offsets build-independent. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L174-L241">Known offsets and validation</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L243-L320">fallback</a>.</p>
+<p>TerrainGfx uses pool <code>0xB1</code>, with 0x20-byte pool descriptors. The loader reads the bounded allocated pool, walks its capacity and skips records whose first qword is zero or points back into the pool. Walking only the loaded count would miss occupied slots beyond holes. Names are masked to 60 bits and resolved if possible; otherwise the asset receives a <code>terraingfx_&lt;hash&gt;</code> name. The resulting asset carries the live record pointer and size. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L163-L170">Pool constants</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L1580-L1627">capacity walk</a>.</p>
+<p>The desired map must remain loaded. Finding an asset by name identifies a record; it does not establish that every resource needed by the shader is resident or belongs to a synchronized frame.</p>
+<h2 id="2-gate-the-supported-build-and-obtain-gpu-records">2. Gate the supported build and obtain GPU records</h2>
+<p>The production <code>CWTerrainBake::Capture</code> checks the game&#x27;s PE timestamp <code>0x6a03ba27</code> and image size <code>0x1f958a00</code>. It then reads the 296-byte (<code>0x128</code>) TerrainGfx header and its mapping-root array. Mapping count must be between 1 and 32. These are explicit gates for the inspected implementation, not offsets to assume for other builds. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L94-L105">Build and mapping checks</a>.</p>
+<p>The frame pointer comes from module base plus <code>0x17c43698</code>. From that frame, the capture reads a tile-list descriptor at <code>+0x28a780</code> and a layer-list descriptor at <code>+0x28b8a0</code>. It tries up to 100 times with a five-millisecond delay because the lists can be empty during reset. Tile count must cover the mapping roots and be at most 2560; layer count must be 1–4096. The capture rereads both arrays and both list descriptors, accepting a pass only when each matches its preceding read. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L106-L120">Frame-list acquisition</a>.</p>
+<div class="table-scroll"><table><thead><tr>
+<th scope="col">Record</th>
+<th scope="col" style="text-align:right">Size</th>
+<th scope="col">Role</th>
+</tr></thead><tbody>
+<tr>
+<td>TerrainGfx header</td>
+<td style="text-align:right">296 bytes</td>
+<td>Mapping roots and image tables</td>
+</tr>
+<tr>
+<td>CPU mapping root</td>
+<td style="text-align:right">472 bytes</td>
+<td>Terrain extent, origin, cell size and shared indices</td>
+</tr>
+<tr>
+<td>GPU tile</td>
+<td style="text-align:right">316 bytes</td>
+<td>Composition transforms, packed resource IDs and parameters</td>
+</tr>
+<tr>
+<td>GPU layer</td>
+<td style="text-align:right">128 bytes</td>
+<td>Material parameters used by the composition shader</td>
+</tr>
+<tr>
+<td>Archival layer image-pointer record</td>
+<td style="text-align:right">96 bytes</td>
+<td>Separate array of 12 image pointers</td>
+</tr>
+<tr>
+<td>Archival painted-slot record</td>
+<td style="text-align:right">304 bytes (<code>0x130</code>)</td>
+<td>Separate CPU material-slot representation</td>
+</tr>
+</tbody></table></div>
+<p>The first four layouts are used by the focused bake capture. The final two belong to the archival research path. Similar names do not make the records interchangeable. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L103-L142">Focused capture</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L751-L774">archival records</a>.</p>
+<h2 id="3-join-mapping-roots-gpu-tiles-and-image-ids">3. Join mapping roots, GPU tiles and image IDs</h2>
+<p>For each mapping root, the capture selects the corresponding leading GPU tile and checks dimensions independently: uint16 width/height at root <code>+0x100/+0x102</code> must equal the tile&#x27;s float dimensions at <code>+136/+140</code>. Dimensions must be nonzero multiples of 32 and at most 8192. It also requires an identity rotation, a sensible cell size and 6144 shared uint16 indices. These checks support the assumed mapping order for the accepted layout; they do not independently identify every tile by a persistent engine ID. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L121-L142">Mapping checks and output metadata</a>.</p>
+<p>The mapping supplies world origin and cell size. The GPU record supplies the transforms used for height sampling and material composition. Tile words at byte offsets 300, 304, 308 and 312 are split into two 14-bit IDs each to identify resources that require full-resolution capture.</p>
+<p>The TerrainGfx header&#x27;s image count is at <code>+48</code>, image-pointer-table pointer at <code>+56</code>, and uint32 ID-table pointer at <code>+72</code>. The capture accepts 1–4096 images and requires unique IDs in <code>1…16383</code>. Each resulting <code>texture_&lt;ID&gt;.bin</code> is associated with that ID, its native DXGI format, actual dimensions and package provenance. These descriptor IDs are not the byte-valued OMPV material indices. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L143-L151">Image table and capture loop</a>.</p>
+<h2 id="4-recover-native-image-bytes">4. Recover native image bytes</h2>
+<p><code>CaptureImage</code> reads the 208-byte image header, including format, dimensions, mip table and resident-data location. For streamed images it walks installed package mips from largest to smallest. Ordinary material textures are limited to an available level no larger than 1024 pixels; height/control resources and the separately captured distortion image require full resolution. The saved image is one mip at the selected dimensions. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L54-L92">Image acquisition</a>.</p>
+<p>Payload size is calculated from format and dimensions, including block-compressed extents. Package decoding is attempted first, with a raw-package fallback requiring the expected extent. A decoded package can contain a mip tail, but only the calculated selected-level bytes are saved. A resident fallback reads process memory and compares the pixels on a second read. Image headers and mip tables are also reread. A full-resolution request fails if only a smaller image is available. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L42-L52">Format byte sizes</a>.</p>
+<p>This preserves native texture blocks for Direct3D to decode. A visually convenient PNG or an old DDS header is not substituted for the captured format. The chosen source mip is still a capture limitation: native bytes do not imply the highest possible installed or authored resolution.</p>
+<h2 id="5-recover-distortion-and-the-composition-binary">5. Recover distortion and the composition binary</h2>
+<p>The production code follows two build-specific globals:</p>
+<pre class="code-block"><code>module + 0x1a188058 -&gt; distortion image pointer -&gt; CaptureImage(full resolution)
+
+module + 0x182aa760 -&gt; composition owner
+owner + 0          -&gt; expected asset hash 0x60e23a45408923cb
+owner + 8          -&gt; expected value 1
+owner + 16         -&gt; pointer table -&gt; first shader descriptor
+descriptor + 16    -&gt; bytecode pointer
+descriptor + 24    -&gt; uint32 byte count</code></pre>
+<p>The descriptor&#x27;s byte count must be between 32 and 1,048,576. The payload is saved unchanged as <code>composition.dxil</code>. The 64-bit owner hash and the payload&#x27;s SHA-256 identify different objects. Later, <code>bake.py</code> independently requires payload SHA-256 <code>6159daeb7882198314ffe9e8b6fab53c1b314258b43a106c1694c5a53d77d9ff</code> and rejects a missing distortion entry. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L153-L161">Global lookup and shader extraction</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L97-L102">bake identity gate</a>.</p>
+<p>The public production routine consumes established offsets. It does not contain their original discovery procedure. The <a href="08-shader-experiments.html">research-experiments chapter</a> separately describes the saved pointer-reference and shader-argument evidence that led to this association.</p>
+<h2 id="6-save-the-focused-replay-inputs">6. Save the focused replay inputs</h2>
+<p>After adding 256 zero-initialized 128-byte records to the captured layer buffer, the capture writes <code>layers.bin</code>. It rereads the TerrainGfx header, mapping roots, image-pointer table and image-ID table before publishing <code>inputs.json</code>. The padding is an adaptation in the saved replay input, not 256 additional captured material layers. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L162-L167">Input sealing point</a>.</p>
+<p>The focused input set is:</p>
+<pre class="code-block"><code>_work/
+  inputs.json
+  composition.dxil
+  distortion.bin
+  layers.bin
+  tile_&lt;mapping&gt;.bin
+  indices_&lt;mapping&gt;.bin
+  texture_&lt;descriptor-ID&gt;.bin</code></pre>
+<p><code>inputs.json</code> connects these files to dimensions, formats, IDs and mapping metadata. It is distinct from the later <code>dispatch.json</code>, which adds reconstructed generic/scene constants and output dimensions. The <a href="07-replay-contract.html">replay contract</a> describes that second stage.</p>
+<h2 id="what-the-stability-checks-prove">What the stability checks prove</h2>
+<p>The accepted arrays and descriptors agreed on their paired reads. The image checks caught no changes within their individual read intervals, and the final root/pointer checks still matched. These are meaningful rejection gates for changing or unsupported inputs.</p>
+<p>They do not establish one atomic state across the entire capture. In this implementation, the frame-global pointer is not checked again at the end; tile/layer arrays are not revalidated after every image is collected; shared indices and composition bytecode are not reread; and the distortion global pointer itself is not reread after image acquisition. The shader SHA establishes binary identity, not temporal synchronization. This scope follows directly from the <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/terrain/CWTerrainBake.h#L94-L167">complete focused capture function</a>.</p>
+<p>The archival reader makes its narrower header-equality scope explicit as well. Do not silently promote either path into a captured GPU submission. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/games/cold_war/reader/GameBlackOpsCW.cpp#L879-L886">Archival stability report</a>.</p>
+<h2 id="practical-reproduction-and-retention">Practical reproduction and retention</h2>
+<ol>
+<li>Build the pinned Greyhound fork using its <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/README.md#L36-L77">Windows build instructions</a>. Keep the packaged Python/runtime helpers and package-index databases with the executable.</li>
+<li>Load the supported Cold War map and attach Greyhound. For a normal bake, select the terrain asset and the intended Terrain settings. The C++ path checks that the composition runner exists, captures inputs, calls the bake and exports the selected model formats. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/src/WraithXCOD/WraithXCOD/assets/CoDAssets.cpp#L2600-L2697">Production entry</a>.</li>
+<li>For raw archival evidence, use <strong>Settings → Dev Tools → Terrain source capture and checks</strong>. Enable the required pools and choose <strong>Load Game</strong> again to refresh the asset list. Treat this as the separate archival workflow described above. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/docs/capture-research.md#L9-L26">Documented route</a>.</li>
+<li>Follow the output path reported by that invocation. GUI, CLI and build-only installations can have separate settings and exports. Inspect status and coverage fields before interpreting a result.</li>
+</ol>
+<p><strong>Preserve replay inputs deliberately.</strong> Successful normal export validates models/material maps and then removes its owned <code>_work</code> directory. Failed exports retain inputs for diagnosis. Final <code>terrain_export.json</code> retains selected source hashes, but a hash cannot reconstruct a missing texture or shader. The fork does not expose a keep-scratch flag in the inspected bake CLI. A reproducibility-focused integration must archive a separate copy before finalization, or operate on an already retained complete input set; this study does not ask readers to race the exporter or deliberately break it. <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/finalize.py#L8-L54">Finalizer lifecycle</a>, <a href="https://github.com/Kxboo/Greyhound/blob/2f3d1020ede04602759d5eb68405df519ec8221b/tools/cold_war/terrain/bake.py#L268-L275">retained source hashes</a>.</p><a class="source-link" href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/docs/06-capture-workflow.md">Read this chapter’s Markdown source ↗</a><nav class="chapter-pager" aria-label="Adjacent chapters"><a href="05-sources.html"><span>← PREVIOUS CHAPTER</span>Sources and provenance</a><a href="07-replay-contract.html"><span>NEXT CHAPTER →</span>The offline replay contract</a></nav></article></main>
+<footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope ↗</a></footer></body></html>

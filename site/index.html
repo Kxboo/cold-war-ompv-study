@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ec">
+  <meta name="description" content="An illustrated research study of Cold War's One Material Per Vertex terrain: interactive synthetic examples, a source-linked capture and replay walkthrough, and scoped validation evidence.">
+  <title>Cold War OMPV — SuperTerrain Field Notes</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a>
+    <nav aria-label="Main navigation"><a href="#explorer">Explorer</a><a href="#evidence">Evidence</a><a href="#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> GRAPHICS RESEARCH / BLACK OPS COLD WAR</p>
+        <h1 id="hero-title">Terrain, one<br> material<br> at a <em>time.</em></h1>
+        <p class="hero-deck">A study of One Material Per Vertex. Follow the IDs beneath the surface—from four control samples to a composed material, then into the capture and replay evidence.</p>
+        <div class="hero-actions"><a class="button primary" href="#explorer">Explore the mechanism <span aria-hidden="true">↓</span></a><a class="text-link" href="chapters/06-capture-workflow.html">Follow the capture <span aria-hidden="true">↗</span></a></div>
+        <p class="hero-byline">Kxboo / SuperTerrain contributors <span>·</span> October 2026</p>
+      </div>
+      <figure class="hero-figure">
+        <div class="figure-top"><span>FIG. 01 / CONTROL → COMPOSITION</span><span class="figure-pill">SYNTHETIC</span></div>
+        <img src="assets/terrain-field.svg" alt="Original synthetic terrain diagram: a raised wireframe field with categorical control samples and a highlighted four-sample footprint." width="720" height="560">
+        <figcaption><span class="figure-key"><i class="key-ochre"></i> MATERIAL ID</span><span class="figure-key"><i class="key-green"></i> CONTROL SAMPLE</span><span>Illustration, not captured terrain</span></figcaption>
+      </figure>
+    </section>
+
+    <div class="thesis wrap">
+      <p>An ID is a category.<br> <strong>Interpolate coverage, not material numbers.</strong></p>
+      <div><b>04</b><span>neighbouring<br> control samples</span></div>
+      <span class="thesis-arrow" aria-hidden="true">→</span>
+      <div><b>≤04</b><span>distinct layers<br> after combining</span></div>
+      <span class="thesis-arrow" aria-hidden="true">→</span>
+      <div><b>01</b><span>composed<br> material result</span></div>
+    </div>
+
+    <section class="explorer-section section-space" id="explorer" aria-labelledby="explorer-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="eyebrow">01 / THE INTERACTIVE REFERENCE</p><h2 id="explorer-title">Get below the surface.</h2></div><p>Edit the control map. Move the sample.<br> Watch the arithmetic follow every change.</p></div>
+        <noscript><p class="notice">JavaScript is needed for the explorer. The <a href="chapters/01-ompv-mechanics.html">mechanics chapter</a> and <a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/examples/ompv_reference.py">Python reference</a> explain the same teaching model.</p></noscript>
+        <div class="explorer-toolbar">
+          <div class="preset-group" role="group" aria-label="Example presets"><span>START WITH</span><button type="button" data-preset="duplicates" aria-pressed="true">Repeated IDs</button><button type="button" data-preset="four" aria-pressed="false">Four layers</button><button type="button" data-preset="controls" aria-pressed="false">Colour association</button><button type="button" data-preset="edge" aria-pressed="false">ID 255 + edges</button></div>
+          <button class="reset-button" type="button" id="reset">Reset <span aria-hidden="true">↺</span></button>
+        </div>
+        <div class="explorer-shell">
+          <div class="input-panel">
+            <div class="panel-heading"><span class="step-number">1</span><h3>Define the control map</h3></div>
+            <p class="panel-description">One byte ID per texel. Every integer from 0 to 255 is valid.</p>
+            <div class="corner-editors" id="corner-editors"></div>
+            <fieldset class="tint-editor"><legend>RGB control <span id="selected-corner-label">/ top-left</span></legend><p>Linear values, attached to this corner’s ID.</p><div id="tint-sliders"></div></fieldset>
+            <div class="model-selector"><label for="reveal-mode">Reveal model</label><select id="reveal-mode"><option value="teaching">Teaching rule</option><option value="observed">Observed reveal equation</option></select><p id="mode-scope">An illustrative rule inspired by the public presentation. Not the recovered Cold War shader.</p></div>
+          </div>
+
+          <div class="sample-panel">
+            <div class="panel-heading"><span class="step-number">2</span><h3>Choose a shading location</h3></div>
+            <div class="sample-board" id="sample-board" role="group" aria-label="Synthetic two by two control map. Click or drag to set the sample position; use the U and V sliders below for keyboard input.">
+              <div class="sample-cells" id="sample-cells" aria-hidden="true"></div>
+              <svg class="sample-overlay" viewBox="0 0 400 400" aria-hidden="true"><path class="centre-lines" d="M100 0V400M300 0V400M0 100H400M0 300H400"/><path id="sample-connections"/><g id="sample-centres"></g><g id="sample-cursor"><circle r="12"/><path d="M-20 0H-6M6 0H20M0-20V-6M0 6V20"/></g></svg>
+              <span class="board-axis x">U →</span><span class="board-axis y">V ↓</span>
+              <span class="board-instruction">DRAG THE CROSSHAIR</span>
+            </div>
+            <div class="uv-controls"><label for="u">U <output id="u-value">0.375</output><input id="u" type="range" min="0" max="1" step="0.001" value="0.375"></label><label for="v">V <output id="v-value">0.625</output><input id="v" type="range" min="0" max="1" step="0.001" value="0.625"></label></div>
+            <p class="coordinate-note" id="coordinate-note"></p>
+            <table class="gather-table"><caption>Four integer loads, before combination</caption><thead><tr><th>Tap</th><th>Texel</th><th>ID</th><th>Weight</th></tr></thead><tbody id="gather-rows"></tbody></table>
+          </div>
+
+          <div class="result-panel">
+            <div class="panel-heading"><span class="step-number">3</span><h3>Combine, order, reveal</h3></div>
+            <p class="panel-description"><span id="unique-count">2</span> participating layers. Numeric ID order; the minimum ID is the opaque base.</p>
+            <div class="layer-stack" id="layer-stack"></div>
+            <div class="composite-output"><div class="output-swatch" id="output-swatch" role="img" aria-label="Synthetic composed colour"></div><div><span class="eyebrow">COMPOSED COLOUR</span><strong id="output-rgb"></strong><small>Linear RGB · displayed as sRGB</small></div></div>
+            <p class="output-note">Flat synthetic material colours × associated RGB controls. This preview contains no game textures.</p>
+          </div>
+        </div>
+        <div class="trace-strip"><span><i class="trace-dot"></i> <b id="coverage-sum">1.0000</b> total coverage</span><span><b id="evaluation-count">2</b> distinct material evaluations</span><span>IDs stay categorical. Coverage and final blend weight are different.</span></div>
+        <details class="math-details"><summary><span>Read the calculation</span><span class="summary-label">WEIGHTS / CONTROLS / REVEAL <span aria-hidden="true">+</span></span></summary><div class="math-content"><div><h3>Gather at texel centres</h3><pre>p = uv × size − 0.5
+f = p − floor(p)
+w = [(1−x)(1−y), x(1−y), (1−x)y, xy]</pre><p>Tap order is TL, TR, BL, BR. Each coordinate clamps at the map edge; repeated edge loads still combine.</p></div><div><h3>Keep colour with its material</h3><pre>Aₘ = Σ wᵢ where IDᵢ = m
+Cₘ = Σ wᵢ × controlᵢ where IDᵢ = m
+meanₘ = Cₘ / Aₘ</pre><p>The coloured controls never mix across IDs before material evaluation. The trace reports both the weighted sum and the mean.</p></div><div><h3 id="equation-title">Teaching reveal rule</h3><pre id="equation-code">α = clamp(2 × coverage − 1 + reveal)
+result = (1−α) × previous + α × layer</pre><p id="equation-note">The first participating layer is opaque. Later layers can occlude earlier ones, so final weights differ from bilinear coverage.</p></div></div><div class="trace-data" id="trace-data"></div></details>
+        <p class="explorer-footnote">The browser teaching model is checked against the <a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/examples/ompv_reference.py">Python reference</a>. The <a href="chapters/08-shader-experiments.html">observed reveal equation</a> is a separately scoped experiment. Neither mode reproduces the complete renderer.</p>
+      </div>
+    </section>
+
+    <section class="capture-section wrap section-space" id="evidence" aria-labelledby="capture-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / FOLLOW THE EVIDENCE</p><h2 id="capture-title">From a live map<br> to a replayable question.</h2></div><p>The capture path matters as much as the equation.<br> Trace each step into the pinned Greyhound fork.</p></div>
+      <div class="capture-layout">
+        <div class="capture-intro"><p class="large-copy">A shader hash identifies the program. It does not identify all the state that made a pixel.</p><p>The study separates source-layer material shaders, renderer-owned composition, saved resources, and the inputs reconstructed for replay.</p><a class="text-link" href="chapters/06-capture-workflow.html">Read the capture walkthrough <span aria-hidden="true">↗</span></a><div class="source-stamp"><span>GREYHOUND SOURCE PIN</span><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b">2f3d1020ede0 <span aria-hidden="true">↗</span></a><small>Kxboo’s fork · immutable revision</small></div></div>
+        <ol class="capture-steps">
+          <li><span class="capture-number">01</span><div><h3>Discover &amp; collect</h3><p>Find the terrain structures, surface-local images, tile records and source-material resources. Capture the renderer’s composition program separately.</p><a href="chapters/06-capture-workflow.html">Capture lifecycle and code references <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">02</span><div><h3>Preserve the replay inputs</h3><p>A normal successful GUI export removes its temporary work directory. Archiving resources and proving their completeness are explicit parts of reproduction.</p><a href="chapters/06-capture-workflow.html">Export cleanup and archival boundaries <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">03</span><div><h3>Bind &amp; dispatch</h3><p>Verify the supported bytecode hash. Reconstruct constants, bind resources and execute the saved-input reference through D3D12 WARP.</p><a href="chapters/07-replay-contract.html">The replay contract, line by line <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">04</span><div><h3>Compare aligned outputs</h3><p>Match world positions and footprints. Measure selected raw output channels, validity and outliers before interpreting exported images.</p><a href="chapters/04-validation.html">Metrics and reproduction <span aria-hidden="true">↗</span></a></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="measurement-section section-space" aria-labelledby="measurement-title">
+      <div class="wrap"><div class="section-heading"><div><p class="eyebrow">03 / A SAVED MEASUREMENT</p><h2 id="measurement-title">Close agreement.<br> A precise boundary.</h2></div><p>One 1024 × 1024 tile, under reconstructed bake inputs.<br> Historical report; no fresh game capture or replay is claimed.</p></div>
+        <div class="measurement-layout"><div class="measurement-lead"><span class="metric-label">COLOUR · MEAN ABSOLUTE ERROR × 255</span><strong>0.113<span>354</span></strong><p>1,048,576 mutually valid texels.<br> 100% validity agreement in this saved comparison.</p><a class="text-link" href="data/shader-validation.json">Inspect the original report <span aria-hidden="true">↗</span></a></div><div class="metric-table-wrap"><table class="metric-table"><caption>Absolute floating-output differences × 255</caption><thead><tr><th>Output channel</th><th>Mean</th><th>P99</th><th>Maximum</th></tr></thead><tbody><tr><th>Colour <small>encoded RGB</small></th><td>0.113354</td><td>1.293148</td><td>112.652756</td></tr><tr><th>Normal <small>raw encoded XY</small></th><td>0.017280</td><td>0.293564</td><td>25.848127</td></tr><tr><th>Roughness</th><td>0.141972</td><td>1.245334</td><td>77.652832</td></tr><tr><th>Ambient occlusion</th><td>0.144955</td><td>0.785144</td><td>17.455154</td></tr></tbody></table><p>Percentiles pool selected scalar components. The normal metric is not an angular error. Large maxima remain unexplained.</p></div></div>
+        <div class="boundary-note"><span class="boundary-icon" aria-hidden="true">↳</span><p><strong>What this result supports:</strong> agreement with this saved-input bake configuration. Reconstructed dispatch constants, provisional samplers, omitted weather globals, independent decals, distant footprints and unmeasured channels remain outside a full equivalence claim.</p><a href="chapters/04-validation.html">Read the limits <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="study-section wrap section-space" id="study" aria-labelledby="study-title">
+      <div class="section-heading"><div><p class="eyebrow">04 / THE COMPLETE FIELD NOTES</p><h2 id="study-title">Take the longer route.</h2></div><p>Mechanics, capture, translation and evidence.<br> Every claim belongs to a defined scope.</p></div>
+      <div class="chapter-index">
+        <a href="chapters/01-ompv-mechanics.html"><span>01</span><div><h3>OMPV mechanics</h3><p>Coordinates, categorical IDs, associated colour, numeric order and reveal.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/02-cold-war-evidence.html"><span>02</span><div><h3>Cold War evidence</h3><p>Captured formats, surface bindings and the composition-shader distinction.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/03-shader-port.html"><span>03</span><div><h3>The shader port</h3><p>DXIL translation, resource atlases, derivatives and output interpretation.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/04-validation.html"><span>04</span><div><h3>Validation &amp; reproduction</h3><p>The saved comparison, its outliers and the checks you can run.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/05-sources.html"><span>05</span><div><h3>Sources &amp; provenance</h3><p>Primary presentations, pinned code and file-content hashes.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/06-capture-workflow.html"><span>06</span><div><h3>The capture workflow</h3><p>Follow the actual Greyhound export lifecycle into the source.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/07-replay-contract.html"><span>07</span><div><h3>The replay contract</h3><p>What the D3D12 runner binds, reconstructs and executes.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/08-shader-experiments.html"><span>08</span><div><h3>Observed shader experiments</h3><p>Instrumented selection and reveal equations, with their evidence boundary.</p></div><b aria-hidden="true">↗</b></a>
+      </div>
+    </section>
+
+    <section class="sources-band wrap" aria-labelledby="sources-title"><p class="eyebrow" id="sources-title">START WITH THE PRIMARY SOURCES</p><div><a href="https://research.activision.com/publications/2021/09/boots-on-the-ground--the-terrain-of-call-of-duty"><span>GDC 2021</span><strong>Boots on the Ground</strong><small>J.T. Hooker · terrain of Call of Duty <b aria-hidden="true">↗</b></small></a><a href="https://advances.realtimerendering.com/s2023/index.html"><span>SIGGRAPH 2023</span><strong>Large Scale Terrain Rendering</strong><small>Stephane Etienne · later rendering context <b aria-hidden="true">↗</b></small></a><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b"><span>PINNED PUBLIC SOURCE</span><strong>Kxboo / Greyhound</strong><small>Capture and saved-input reference bake <b aria-hidden="true">↗</b></small></a></div></section>
+  </main>
+
+  <footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope <span aria-hidden="true">↗</span></a></footer>
+  <div class="sr-only" aria-live="polite" aria-atomic="true" id="explorer-status"></div>
+</body>
+</html>
