@@ -214,11 +214,61 @@ function update() {
 
 function announce() {
   clearTimeout(liveTimer);
+  if (!explorer.open) return;
   liveTimer = setTimeout(() => {
+    if (!explorer.open) return;
     const ids = lastTrace.layers.map(layer => layer.material).join(', ');
     $('#explorer-status').textContent = `${lastTrace.layers.length} participating layers in order: ${ids}. Total coverage 1. Composed linear RGB: ${rgb(lastTrace.colour)}. ${state.mode === 'teaching' ? 'Teaching reveal rule.' : 'Observed reveal equation with teaching selection.'}`;
   }, 150);
 }
 
-createControls();
-setPreset('duplicates');
+const explorer = $('#explorer');
+const explorerSummary = explorer.querySelector('summary');
+let explorerInitialized = false;
+
+function initializeExplorer() {
+  if (explorerInitialized) return;
+  createControls();
+  setPreset('duplicates');
+  explorerInitialized = true;
+}
+
+function openExplorer() {
+  explorer.open = true;
+  initializeExplorer();
+}
+
+// Native details handles mouse, Enter and Space. The controls are initialized
+// only when requested; a collapsed example never announces live results.
+explorer.addEventListener('toggle', () => {
+  if (explorer.open) initializeExplorer();
+  else {
+    clearTimeout(liveTimer);
+    $('#explorer-status').textContent = '';
+  }
+});
+
+// Expand before the browser's normal fragment navigation. This also handles a
+// second click on the same hash after the reader manually closes the example.
+document.querySelectorAll('a[href="#explorer"]').forEach(link => {
+  link.addEventListener('click', event => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    openExplorer();
+    requestAnimationFrame(() => explorerSummary.focus({ preventScroll: true }));
+  });
+});
+
+function followExplorerFragment() {
+  if (location.hash !== '#explorer') return;
+  const wasClosed = !explorer.open;
+  openExplorer();
+  if (wasClosed) {
+    requestAnimationFrame(() => {
+      explorerSummary.scrollIntoView({ block: 'start' });
+      explorerSummary.focus({ preventScroll: true });
+    });
+  }
+}
+
+window.addEventListener('hashchange', followExplorerFragment);
+followExplorerFragment();

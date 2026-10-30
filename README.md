@@ -2,7 +2,7 @@
 
 A technical study of **One Material Per Vertex (OMPV)** terrain composition in **Call of Duty: Black Ops Cold War**, by Kxboo / SuperTerrain contributors. Published October 29, 2026.
 
-**[Open the interactive study and OMPV explorer](https://kxboo.github.io/cold-war-ompv-study/).** Move the sample coordinate, change material IDs and per-corner RGB controls, and inspect gathering, duplicate combination and ordered reveal. The site also includes all eight research chapters with source links.
+**[Read the study online](https://kxboo.github.io/cold-war-ompv-study/).** Follow the capture workflow, replay contract and validation evidence through eight chapters with source links. An optional, collapsed example at the bottom shows how four control samples combine into material coverage; expand it to experiment with sample position, IDs and reveal after reading the mechanics.
 
 OMPV stores a material ID at each control-map texel. Shading gathers four IDs, combines repeated materials, and evaluates the resulting layers in order. Reveal maps shape the transitions. This compact representation is an input to material composition; virtual texturing handles storage and reuse of the composed result.
 

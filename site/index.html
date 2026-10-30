@@ -14,7 +14,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <a class="wordmark" href="./" aria-label="SuperTerrain Field Notes home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 16 16 2l14 14-14 14Z"/><path d="m2 16 14 4 14-4M16 2v18l-8 4"/></svg><span>SUPERTERRAIN<small>FIELD NOTES / 001</small></span></a>
-    <nav aria-label="Main navigation"><a href="#explorer">Explorer</a><a href="#evidence">Evidence</a><a href="#study">The study</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav>
+    <nav aria-label="Main navigation"><a href="#study">The study</a><a href="#evidence">Evidence</a><a href="#explorer">Optional example</a><a class="nav-repo" href="https://github.com/Kxboo/cold-war-ompv-study">GitHub <span aria-hidden="true">↗</span></a></nav>
   </header>
 
   <main id="main">
@@ -22,8 +22,8 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> GRAPHICS RESEARCH / BLACK OPS COLD WAR</p>
         <h1 id="hero-title">Terrain, one<br> material<br> at a <em>time.</em></h1>
-        <p class="hero-deck">A study of One Material Per Vertex. Follow the IDs beneath the surface—from four control samples to a composed material, then into the capture and replay evidence.</p>
-        <div class="hero-actions"><a class="button primary" href="#explorer">Explore the mechanism <span aria-hidden="true">↓</span></a><a class="text-link" href="chapters/06-capture-workflow.html">Follow the capture <span aria-hidden="true">↗</span></a></div>
+        <p class="hero-deck">A study of One Material Per Vertex in Cold War. Follow the capture path, examine the replay inputs, and read the evidence behind the reconstructed terrain material.</p>
+        <div class="hero-actions"><a class="button primary" href="#study">Read the study <span aria-hidden="true">↓</span></a><a class="text-link" href="chapters/06-capture-workflow.html">Follow the capture <span aria-hidden="true">↗</span></a></div>
         <p class="hero-byline">Kxboo / SuperTerrain contributors <span>·</span> October 2026</p>
       </div>
       <figure class="hero-figure">
@@ -42,9 +42,51 @@
       <div><b>01</b><span>composed<br> material result</span></div>
     </div>
 
-    <section class="explorer-section section-space" id="explorer" aria-labelledby="explorer-title">
+
+
+    <section class="capture-section wrap section-space" id="evidence" aria-labelledby="capture-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / FOLLOW THE EVIDENCE</p><h2 id="capture-title">From a live map<br> to a replayable question.</h2></div><p>The capture path matters as much as the equation.<br> Trace each step into the pinned Greyhound fork.</p></div>
+      <div class="capture-layout">
+        <div class="capture-intro"><p class="large-copy">A shader hash identifies the program. It does not identify all the state that made a pixel.</p><p>The study separates source-layer material shaders, renderer-owned composition, saved resources, and the inputs reconstructed for replay.</p><a class="text-link" href="chapters/06-capture-workflow.html">Read the capture walkthrough <span aria-hidden="true">↗</span></a><div class="source-stamp"><span>GREYHOUND SOURCE PIN</span><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b">2f3d1020ede0 <span aria-hidden="true">↗</span></a><small>Kxboo’s fork · immutable revision</small></div></div>
+        <ol class="capture-steps">
+          <li><span class="capture-number">01</span><div><h3>Discover &amp; collect</h3><p>Find the terrain structures, surface-local images, tile records and source-material resources. Capture the renderer’s composition program separately.</p><a href="chapters/06-capture-workflow.html">Capture lifecycle and code references <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">02</span><div><h3>Preserve the replay inputs</h3><p>A normal successful GUI export removes its temporary work directory. Archiving resources and proving their completeness are explicit parts of reproduction.</p><a href="chapters/06-capture-workflow.html">Export cleanup and archival boundaries <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">03</span><div><h3>Bind &amp; dispatch</h3><p>Verify the supported bytecode hash. Reconstruct constants, bind resources and execute the saved-input reference through D3D12 WARP.</p><a href="chapters/07-replay-contract.html">The replay contract, line by line <span aria-hidden="true">↗</span></a></div></li>
+          <li><span class="capture-number">04</span><div><h3>Compare aligned outputs</h3><p>Match world positions and footprints. Measure selected raw output channels, validity and outliers before interpreting exported images.</p><a href="chapters/04-validation.html">Metrics and reproduction <span aria-hidden="true">↗</span></a></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="measurement-section section-space" aria-labelledby="measurement-title">
+      <div class="wrap"><div class="section-heading"><div><p class="eyebrow">02 / A SAVED MEASUREMENT</p><h2 id="measurement-title">Close agreement.<br> A precise boundary.</h2></div><p>One 1024 × 1024 tile, under reconstructed bake inputs.<br> Historical report; no fresh game capture or replay is claimed.</p></div>
+        <div class="measurement-layout"><div class="measurement-lead"><span class="metric-label">COLOUR · MEAN ABSOLUTE ERROR × 255</span><strong>0.113<span>354</span></strong><p>1,048,576 mutually valid texels.<br> 100% validity agreement in this saved comparison.</p><a class="text-link" href="data/shader-validation.json">Inspect the original report <span aria-hidden="true">↗</span></a></div><div class="metric-table-wrap"><table class="metric-table"><caption>Absolute floating-output differences × 255</caption><thead><tr><th>Output channel</th><th>Mean</th><th>P99</th><th>Maximum</th></tr></thead><tbody><tr><th>Colour <small>encoded RGB</small></th><td>0.113354</td><td>1.293148</td><td>112.652756</td></tr><tr><th>Normal <small>raw encoded XY</small></th><td>0.017280</td><td>0.293564</td><td>25.848127</td></tr><tr><th>Roughness</th><td>0.141972</td><td>1.245334</td><td>77.652832</td></tr><tr><th>Ambient occlusion</th><td>0.144955</td><td>0.785144</td><td>17.455154</td></tr></tbody></table><p>Percentiles pool selected scalar components. The normal metric is not an angular error. Large maxima remain unexplained.</p></div></div>
+        <div class="boundary-note"><span class="boundary-icon" aria-hidden="true">↳</span><p><strong>What this result supports:</strong> agreement with this saved-input bake configuration. Reconstructed dispatch constants, provisional samplers, omitted weather globals, independent decals, distant footprints and unmeasured channels remain outside a full equivalence claim.</p><a href="chapters/04-validation.html">Read the limits <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="study-section wrap section-space" id="study" aria-labelledby="study-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / THE COMPLETE FIELD NOTES</p><h2 id="study-title">Take the longer route.</h2></div><p>Mechanics, capture, translation and evidence.<br> Every claim belongs to a defined scope.</p></div>
+      <div class="chapter-index">
+        <a href="chapters/01-ompv-mechanics.html"><span>01</span><div><h3>OMPV mechanics</h3><p>Coordinates, categorical IDs, associated colour, numeric order and reveal.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/02-cold-war-evidence.html"><span>02</span><div><h3>Cold War evidence</h3><p>Captured formats, surface bindings and the composition-shader distinction.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/03-shader-port.html"><span>03</span><div><h3>The shader port</h3><p>DXIL translation, resource atlases, derivatives and output interpretation.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/04-validation.html"><span>04</span><div><h3>Validation &amp; reproduction</h3><p>The saved comparison, its outliers and the checks you can run.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/05-sources.html"><span>05</span><div><h3>Sources &amp; provenance</h3><p>Primary presentations, pinned code and file-content hashes.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/06-capture-workflow.html"><span>06</span><div><h3>The capture workflow</h3><p>Follow the actual Greyhound export lifecycle into the source.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/07-replay-contract.html"><span>07</span><div><h3>The replay contract</h3><p>What the D3D12 runner binds, reconstructs and executes.</p></div><b aria-hidden="true">↗</b></a>
+        <a href="chapters/08-shader-experiments.html"><span>08</span><div><h3>Observed shader experiments</h3><p>Instrumented selection and reveal equations, with their evidence boundary.</p></div><b aria-hidden="true">↗</b></a>
+      </div>
+    </section>
+
+    <section class="sources-band wrap" aria-labelledby="sources-title"><p class="eyebrow" id="sources-title">START WITH THE PRIMARY SOURCES</p><div><a href="https://research.activision.com/publications/2021/09/boots-on-the-ground--the-terrain-of-call-of-duty"><span>GDC 2021</span><strong>Boots on the Ground</strong><small>J.T. Hooker · terrain of Call of Duty <b aria-hidden="true">↗</b></small></a><a href="https://advances.realtimerendering.com/s2023/index.html"><span>SIGGRAPH 2023</span><strong>Large Scale Terrain Rendering</strong><small>Stephane Etienne · later rendering context <b aria-hidden="true">↗</b></small></a><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b"><span>PINNED PUBLIC SOURCE</span><strong>Kxboo / Greyhound</strong><small>Capture and saved-input reference bake <b aria-hidden="true">↗</b></small></a></div></section>
+    <details class="explorer-disclosure" id="explorer">
+      <summary class="explorer-summary wrap">
+        <span class="explorer-summary-copy"><span class="eyebrow">04 / OPTIONAL WORKED EXAMPLE</span><span class="explorer-summary-title">Explore how four samples become material coverage</span><span class="explorer-summary-purpose">See how three ID 7 corners share one coverage value as you move the sample.</span></span>
+        <span class="explorer-indicator" aria-hidden="true">+</span>
+      </summary>
+    <section class="explorer-section" aria-labelledby="explorer-title">
       <div class="wrap">
-        <div class="section-heading"><div><p class="eyebrow">01 / THE INTERACTIVE REFERENCE</p><h2 id="explorer-title">Get below the surface.</h2></div><p>Edit the control map. Move the sample.<br> Watch the arithmetic follow every change.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">SYNTHETIC WORKED EXAMPLE</p><h2 id="explorer-title">How repeated IDs combine.</h2></div><p>Start with <strong>Repeated IDs</strong>, then move <strong>U</strong> or <strong>V</strong>. Watch the three ID 7 samples combine into one material’s coverage.</p></div>
         <noscript><p class="notice">JavaScript is needed for the explorer. The <a href="chapters/01-ompv-mechanics.html">mechanics chapter</a> and <a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/examples/ompv_reference.py">Python reference</a> explain the same teaching model.</p></noscript>
         <div class="explorer-toolbar">
           <div class="preset-group" role="group" aria-label="Example presets"><span>START WITH</span><button type="button" data-preset="duplicates" aria-pressed="true">Repeated IDs</button><button type="button" data-preset="four" aria-pressed="false">Four layers</button><button type="button" data-preset="controls" aria-pressed="false">Colour association</button><button type="button" data-preset="edge" aria-pressed="false">ID 255 + edges</button></div>
@@ -90,42 +132,7 @@ result = (1−α) × previous + α × layer</pre><p id="equation-note">The first
         <p class="explorer-footnote">The browser teaching model is checked against the <a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/examples/ompv_reference.py">Python reference</a>. The <a href="chapters/08-shader-experiments.html">observed reveal equation</a> is a separately scoped experiment. Neither mode reproduces the complete renderer.</p>
       </div>
     </section>
-
-    <section class="capture-section wrap section-space" id="evidence" aria-labelledby="capture-title">
-      <div class="section-heading"><div><p class="eyebrow">02 / FOLLOW THE EVIDENCE</p><h2 id="capture-title">From a live map<br> to a replayable question.</h2></div><p>The capture path matters as much as the equation.<br> Trace each step into the pinned Greyhound fork.</p></div>
-      <div class="capture-layout">
-        <div class="capture-intro"><p class="large-copy">A shader hash identifies the program. It does not identify all the state that made a pixel.</p><p>The study separates source-layer material shaders, renderer-owned composition, saved resources, and the inputs reconstructed for replay.</p><a class="text-link" href="chapters/06-capture-workflow.html">Read the capture walkthrough <span aria-hidden="true">↗</span></a><div class="source-stamp"><span>GREYHOUND SOURCE PIN</span><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b">2f3d1020ede0 <span aria-hidden="true">↗</span></a><small>Kxboo’s fork · immutable revision</small></div></div>
-        <ol class="capture-steps">
-          <li><span class="capture-number">01</span><div><h3>Discover &amp; collect</h3><p>Find the terrain structures, surface-local images, tile records and source-material resources. Capture the renderer’s composition program separately.</p><a href="chapters/06-capture-workflow.html">Capture lifecycle and code references <span aria-hidden="true">↗</span></a></div></li>
-          <li><span class="capture-number">02</span><div><h3>Preserve the replay inputs</h3><p>A normal successful GUI export removes its temporary work directory. Archiving resources and proving their completeness are explicit parts of reproduction.</p><a href="chapters/06-capture-workflow.html">Export cleanup and archival boundaries <span aria-hidden="true">↗</span></a></div></li>
-          <li><span class="capture-number">03</span><div><h3>Bind &amp; dispatch</h3><p>Verify the supported bytecode hash. Reconstruct constants, bind resources and execute the saved-input reference through D3D12 WARP.</p><a href="chapters/07-replay-contract.html">The replay contract, line by line <span aria-hidden="true">↗</span></a></div></li>
-          <li><span class="capture-number">04</span><div><h3>Compare aligned outputs</h3><p>Match world positions and footprints. Measure selected raw output channels, validity and outliers before interpreting exported images.</p><a href="chapters/04-validation.html">Metrics and reproduction <span aria-hidden="true">↗</span></a></div></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="measurement-section section-space" aria-labelledby="measurement-title">
-      <div class="wrap"><div class="section-heading"><div><p class="eyebrow">03 / A SAVED MEASUREMENT</p><h2 id="measurement-title">Close agreement.<br> A precise boundary.</h2></div><p>One 1024 × 1024 tile, under reconstructed bake inputs.<br> Historical report; no fresh game capture or replay is claimed.</p></div>
-        <div class="measurement-layout"><div class="measurement-lead"><span class="metric-label">COLOUR · MEAN ABSOLUTE ERROR × 255</span><strong>0.113<span>354</span></strong><p>1,048,576 mutually valid texels.<br> 100% validity agreement in this saved comparison.</p><a class="text-link" href="data/shader-validation.json">Inspect the original report <span aria-hidden="true">↗</span></a></div><div class="metric-table-wrap"><table class="metric-table"><caption>Absolute floating-output differences × 255</caption><thead><tr><th>Output channel</th><th>Mean</th><th>P99</th><th>Maximum</th></tr></thead><tbody><tr><th>Colour <small>encoded RGB</small></th><td>0.113354</td><td>1.293148</td><td>112.652756</td></tr><tr><th>Normal <small>raw encoded XY</small></th><td>0.017280</td><td>0.293564</td><td>25.848127</td></tr><tr><th>Roughness</th><td>0.141972</td><td>1.245334</td><td>77.652832</td></tr><tr><th>Ambient occlusion</th><td>0.144955</td><td>0.785144</td><td>17.455154</td></tr></tbody></table><p>Percentiles pool selected scalar components. The normal metric is not an angular error. Large maxima remain unexplained.</p></div></div>
-        <div class="boundary-note"><span class="boundary-icon" aria-hidden="true">↳</span><p><strong>What this result supports:</strong> agreement with this saved-input bake configuration. Reconstructed dispatch constants, provisional samplers, omitted weather globals, independent decals, distant footprints and unmeasured channels remain outside a full equivalence claim.</p><a href="chapters/04-validation.html">Read the limits <span aria-hidden="true">↗</span></a></div>
-      </div>
-    </section>
-
-    <section class="study-section wrap section-space" id="study" aria-labelledby="study-title">
-      <div class="section-heading"><div><p class="eyebrow">04 / THE COMPLETE FIELD NOTES</p><h2 id="study-title">Take the longer route.</h2></div><p>Mechanics, capture, translation and evidence.<br> Every claim belongs to a defined scope.</p></div>
-      <div class="chapter-index">
-        <a href="chapters/01-ompv-mechanics.html"><span>01</span><div><h3>OMPV mechanics</h3><p>Coordinates, categorical IDs, associated colour, numeric order and reveal.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/02-cold-war-evidence.html"><span>02</span><div><h3>Cold War evidence</h3><p>Captured formats, surface bindings and the composition-shader distinction.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/03-shader-port.html"><span>03</span><div><h3>The shader port</h3><p>DXIL translation, resource atlases, derivatives and output interpretation.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/04-validation.html"><span>04</span><div><h3>Validation &amp; reproduction</h3><p>The saved comparison, its outliers and the checks you can run.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/05-sources.html"><span>05</span><div><h3>Sources &amp; provenance</h3><p>Primary presentations, pinned code and file-content hashes.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/06-capture-workflow.html"><span>06</span><div><h3>The capture workflow</h3><p>Follow the actual Greyhound export lifecycle into the source.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/07-replay-contract.html"><span>07</span><div><h3>The replay contract</h3><p>What the D3D12 runner binds, reconstructs and executes.</p></div><b aria-hidden="true">↗</b></a>
-        <a href="chapters/08-shader-experiments.html"><span>08</span><div><h3>Observed shader experiments</h3><p>Instrumented selection and reveal equations, with their evidence boundary.</p></div><b aria-hidden="true">↗</b></a>
-      </div>
-    </section>
-
-    <section class="sources-band wrap" aria-labelledby="sources-title"><p class="eyebrow" id="sources-title">START WITH THE PRIMARY SOURCES</p><div><a href="https://research.activision.com/publications/2021/09/boots-on-the-ground--the-terrain-of-call-of-duty"><span>GDC 2021</span><strong>Boots on the Ground</strong><small>J.T. Hooker · terrain of Call of Duty <b aria-hidden="true">↗</b></small></a><a href="https://advances.realtimerendering.com/s2023/index.html"><span>SIGGRAPH 2023</span><strong>Large Scale Terrain Rendering</strong><small>Stephane Etienne · later rendering context <b aria-hidden="true">↗</b></small></a><a href="https://github.com/Kxboo/Greyhound/tree/2f3d1020ede04602759d5eb68405df519ec8221b"><span>PINNED PUBLIC SOURCE</span><strong>Kxboo / Greyhound</strong><small>Capture and saved-input reference bake <b aria-hidden="true">↗</b></small></a></div></section>
+    </details>
   </main>
 
   <footer class="site-footer wrap"><div><strong>SUPERTERRAIN</strong><span>Original research notes &amp; synthetic examples.</span></div><p>Independent study. No game assets are distributed.</p><a href="https://github.com/Kxboo/cold-war-ompv-study/blob/main/NOTICE.md">Credits &amp; scope <span aria-hidden="true">↗</span></a></footer>
