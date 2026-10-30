@@ -1,33 +1,89 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="400" viewBox="0 0 1120 400" role="img" aria-labelledby="title desc">
-<title id="title">OMPV gathers IDs and combines their coverage</title>
-<desc id="desc">Synthetic example: IDs 7,7,2,7 have weights 0.1875,0.0625,0.5625,0.1875. Material 2 combines to 0.5625, material 7 to 0.4375.</desc>
-<rect width="1120" height="400" rx="16" fill="#101b29"/>
-<g font-family="Arial, sans-serif" fill="#ecf2fa">
-<text x="32" y="42" font-size="25" font-weight="bold">Four control samples, two material evaluations</text>
-<text x="32" y="70" font-size="15" fill="#b3c5da">Synthetic OMPV example · p = (0.25, 0.75) in texel-centre coordinates</text>
-<rect x="32" y="98" width="126" height="104" rx="8" fill="#eab15c"/>
-<text x="46" y="133" font-size="26" fill="#101b29" font-weight="bold">ID 7</text>
-<text x="46" y="170" font-size="17" fill="#101b29">w = 0.1875</text>
-<rect x="170" y="98" width="126" height="104" rx="8" fill="#eab15c"/>
-<text x="184" y="133" font-size="26" fill="#101b29" font-weight="bold">ID 7</text>
-<text x="184" y="170" font-size="17" fill="#101b29">w = 0.0625</text>
-<rect x="32" y="214" width="126" height="104" rx="8" fill="#83b8f2"/>
-<text x="46" y="249" font-size="26" fill="#101b29" font-weight="bold">ID 2</text>
-<text x="46" y="286" font-size="17" fill="#101b29">w = 0.5625</text>
-<rect x="170" y="214" width="126" height="104" rx="8" fill="#eab15c"/>
-<text x="184" y="249" font-size="26" fill="#101b29" font-weight="bold">ID 7</text>
-<text x="184" y="286" font-size="17" fill="#101b29">w = 0.1875</text>
-<path d="M325 208 H420 M408 198 L420 208 L408 218" stroke="#b3c5da" stroke-width="3" fill="none"/>
-<text x="335" y="174" font-size="16">combine</text>
-<text x="335" y="245" font-size="16">and sort</text>
-<text x="454" y="115" font-size="20" font-weight="bold">Material 2</text>
-<rect x="454" y="131" width="530" height="34" rx="5" fill="#27384d"/>
-<rect x="454" y="131" width="298.125" height="34" rx="5" fill="#83b8f2"/>
-<text x="1000" y="155" font-size="18">0.5625</text>
-<text x="454" y="225" font-size="20" font-weight="bold">Material 7</text>
-<rect x="454" y="241" width="530" height="34" rx="5" fill="#27384d"/>
-<rect x="454" y="241" width="231.875" height="34" rx="5" fill="#eab15c"/>
-<text x="1000" y="265" font-size="18">0.4375</text>
-<text x="454" y="321" font-size="15" fill="#b3c5da">Coverage sums to 1. Reveal is a later operation.</text>
-<text x="32" y="372" font-size="15" fill="#b3c5da">Integer IDs stay categorical. Colour controls follow their associated material.</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" role="img" aria-labelledby="title desc">
+<title id="title">OMPV: four control samples combine into two distinct materials</title>
+<desc id="desc">Synthetic 2 by 2 control map at texel-centre position (0.25, 0.75), equivalent to normalized UV (0.375, 0.625). Top-left: ID 7, weight (1-x)(1-y) = 0.1875. Top-right: ID 7, weight x(1-y) = 0.0625. Bottom-left: ID 2, weight (1-x)y = 0.5625. Bottom-right: ID 7, weight xy = 0.1875. Matching IDs combine: material 2 receives 0.5625; material 7 receives 0.1875 + 0.0625 + 0.1875 = 0.4375. Both bars use the same zero-to-one scale. Material 7 is segmented by its three source samples. Numeric layer order is 2 then 7. Total bilinear coverage is 1. This is coverage before reveal, not the final compositing weight. Colours only identify materials; no game textures are included.</desc>
+<rect x="1" y="1" width="1118" height="698" rx="18" fill="#f5f3ec" stroke="#cbd1c0" stroke-width="2"/>
+<text x="32" y="36" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="normal" fill="#596451" text-anchor="start" letter-spacing="1.5">SYNTHETIC OMPV / GATHER + COMBINE</text>
+<text x="32" y="82" font-family="Georgia, serif" font-size="38" font-weight="normal" fill="#263027" text-anchor="start">Four samples. Two distinct materials.</text>
+<text x="32" y="118" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" fill="#596451" text-anchor="start">Keep the IDs categorical. Add the weights only when the IDs match.</text>
+<path d="M32 143L1088 143" fill="none" stroke="#cbd1c0" stroke-width="1"/>
+<text x="32" y="181" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="normal" fill="#a34b27" text-anchor="start">01</text>
+<text x="70" y="181" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#263027" text-anchor="start">Gather four control samples</text>
+<text x="32" y="213" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#596451" text-anchor="start">Local fractions: x = 0.25, y = 0.75</text>
+<text x="464" y="181" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="normal" fill="#a34b27" text-anchor="start">02</text>
+<text x="502" y="181" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#263027" text-anchor="start">Combine, then sort by ID</text>
+<text x="464" y="213" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#596451" text-anchor="start">Bilinear coverage · both bars use a 0–1 scale</text>
+<rect x="32" y="235" width="174" height="135" fill="#e5bf78" stroke="#bea065" rx="6"/>
+<text x="47" y="264" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="start">TL</text>
+<text x="191" y="266" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" fill="#263027" text-anchor="end">ID 7</text>
+<text x="47" y="311" font-family="Georgia, serif" font-size="20" font-weight="normal" fill="#263027" text-anchor="start">w</text>
+<text x="74" y="311" font-family="Consolas, Menlo, monospace" font-size="25" font-weight="normal" fill="#263027" text-anchor="start">0.1875</text>
+<text x="47" y="346" font-family="Consolas, Menlo, monospace" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">0.75 × 0.25</text>
+<rect x="218" y="235" width="174" height="135" fill="#e5bf78" stroke="#bea065" rx="6"/>
+<text x="233" y="264" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="start">TR</text>
+<text x="377" y="266" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" fill="#263027" text-anchor="end">ID 7</text>
+<text x="233" y="311" font-family="Georgia, serif" font-size="20" font-weight="normal" fill="#263027" text-anchor="start">w</text>
+<text x="260" y="311" font-family="Consolas, Menlo, monospace" font-size="25" font-weight="normal" fill="#263027" text-anchor="start">0.0625</text>
+<text x="233" y="346" font-family="Consolas, Menlo, monospace" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">0.25 × 0.25</text>
+<rect x="32" y="385" width="174" height="135" fill="#adc9de" stroke="#8caabe" rx="6"/>
+<text x="47" y="414" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="start">BL</text>
+<text x="191" y="416" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" fill="#263027" text-anchor="end">ID 2</text>
+<text x="47" y="461" font-family="Georgia, serif" font-size="20" font-weight="normal" fill="#263027" text-anchor="start">w</text>
+<text x="74" y="461" font-family="Consolas, Menlo, monospace" font-size="25" font-weight="normal" fill="#263027" text-anchor="start">0.5625</text>
+<text x="47" y="496" font-family="Consolas, Menlo, monospace" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">0.75 × 0.75</text>
+<rect x="218" y="385" width="174" height="135" fill="#e5bf78" stroke="#bea065" rx="6"/>
+<text x="233" y="414" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="start">BR</text>
+<text x="377" y="416" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" fill="#263027" text-anchor="end">ID 7</text>
+<text x="233" y="461" font-family="Georgia, serif" font-size="20" font-weight="normal" fill="#263027" text-anchor="start">w</text>
+<text x="260" y="461" font-family="Consolas, Menlo, monospace" font-size="25" font-weight="normal" fill="#263027" text-anchor="start">0.1875</text>
+<text x="233" y="496" font-family="Consolas, Menlo, monospace" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">0.25 × 0.75</text>
+<path d="M410 377H445m-9-9 9 9-9 9" fill="none" stroke="#596451" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="464" y="235" width="624" height="135" fill="#fcfbf6" stroke="#cbd1c0" rx="6"/>
+<text x="484" y="267" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#263027" text-anchor="start">Material 2</text>
+<text x="1068" y="267" font-family="Consolas, Menlo, monospace" font-size="28" font-weight="bold" fill="#263027" text-anchor="end">0.5625</text>
+<text x="484" y="299" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">BL · the only sample with ID 2</text>
+<rect x="484" y="319" width="584" height="26" fill="#e3e6db"/>
+<rect x="484" y="319" width="328.5" height="26" fill="#adc9de"/>
+<text x="648.25" y="338" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="middle">BL</text>
+<path d="M484 347L484 351" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="484" y="366" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="start">0</text>
+<path d="M630 347L630 351" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="630.0" y="366" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.25</text>
+<path d="M776 347L776 351" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="776.0" y="366" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.5</text>
+<path d="M922 347L922 351" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="922.0" y="366" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.75</text>
+<path d="M1068 347L1068 351" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="1068" y="366" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="end">1</text>
+<rect x="464" y="385" width="624" height="135" fill="#fcfbf6" stroke="#cbd1c0" rx="6"/>
+<text x="484" y="417" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#263027" text-anchor="start">Material 7</text>
+<text x="1068" y="417" font-family="Consolas, Menlo, monospace" font-size="28" font-weight="bold" fill="#263027" text-anchor="end">0.4375</text>
+<text x="484" y="449" font-family="Consolas, Menlo, monospace" font-size="18" font-weight="normal" fill="#263027" text-anchor="start">0.1875 + 0.0625 + 0.1875 = 0.4375</text>
+<rect x="484" y="469" width="584" height="26" fill="#e3e6db"/>
+<rect x="484" y="469" width="109.5" height="26" fill="#e5bf78"/>
+<text x="538.75" y="488" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="middle">TL</text>
+<rect x="593.5" y="469" width="36.5" height="26" fill="#e5bf78"/>
+<path d="M593.5 469L593.5 495" fill="none" stroke="#f5f3ec" stroke-width="2"/>
+<text x="611.75" y="488" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="middle">TR</text>
+<rect x="630" y="469" width="109.5" height="26" fill="#e5bf78"/>
+<path d="M630 469L630 495" fill="none" stroke="#f5f3ec" stroke-width="2"/>
+<text x="684.75" y="488" font-family="Consolas, Menlo, monospace" font-size="16" font-weight="bold" fill="#263027" text-anchor="middle">BR</text>
+<path d="M484 497L484 501" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="484" y="516" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="start">0</text>
+<path d="M630 497L630 501" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="630.0" y="516" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.25</text>
+<path d="M776 497L776 501" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="776.0" y="516" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.5</text>
+<path d="M922 497L922 501" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="922.0" y="516" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="middle">0.75</text>
+<path d="M1068 497L1068 501" fill="none" stroke="#7c8970" stroke-width="1"/>
+<text x="1068" y="516" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="normal" fill="#596451" text-anchor="end">1</text>
+<text x="32" y="551" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#596451" text-anchor="start">Load order: TL, TR, BL, BR</text>
+<text x="464" y="551" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" fill="#596451" text-anchor="start">Numeric layer order:</text>
+<text x="652" y="551" font-family="Consolas, Menlo, monospace" font-size="22" font-weight="bold" fill="#263027" text-anchor="start">2 → 7</text>
+<rect x="32" y="580" width="1056" height="90" fill="#e7ebdf" rx="6"/>
+<text x="52" y="607" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="normal" fill="#596451" text-anchor="start" letter-spacing="1">TOTAL BILINEAR COVERAGE</text>
+<text x="52" y="645" font-family="Consolas, Menlo, monospace" font-size="25" font-weight="normal" fill="#263027" text-anchor="start">0.5625 + 0.4375 = 1.0000</text>
+<path d="M510 599L510 650" fill="none" stroke="#bcc6ae" stroke-width="1"/>
+<text x="536" y="614" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#263027" text-anchor="start">Coverage is not the final blend.</text>
+<text x="536" y="645" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" fill="#596451" text-anchor="start">Reveal is applied later, after numeric ordering.</text>
+</svg>

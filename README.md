@@ -8,7 +8,9 @@ OMPV stores a material ID at each control-map texel. Shading gathers four IDs, c
 
 The study connects the public terrain presentations to Cold War capture observations and a later DXIL-to-HLSL port experiment. Its strongest numerical result is a saved **1024 × 1024 atlas-backed comparison against Greyhound's reference bake**: colour MAE **0.113/255** and validity agreement **100%**. This is one tile under the bake's reconstructed inputs, provisional samplers, and omitted weather globals. It does not establish full-frame or all-map equivalence.
 
-![Synthetic OMPV gathering and duplicate combination](assets/ompv-gather.svg)
+![Four control samples combine into two materials: ID 2 contributes 0.5625; three ID 7 samples sum to 0.4375. Bars show bilinear coverage before reveal.](assets/ompv-gather.svg)
+
+[Open the diagram at full size](assets/ompv-gather.svg).
 
 ## Read the study
 
